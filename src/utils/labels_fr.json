@@ -1,0 +1,22 @@
+{
+  "onboardingScreens": [
+    {
+      "id": 1,
+      "key": "discover_learning_adventure",
+      "frenchTitle": "Découvrez Votre Aventure Linguistique",
+      "frenchContent": "Apprenez 5 nouveaux mots français chaque jour et enrichissez votre vocabulaire de manière ludique et efficace."
+    },
+    {
+      "id": 2,
+      "key": "stay_organized",
+      "frenchTitle": "Restez Organisé avec nos Outils",
+      "frenchContent": "Profitez de quiz quotidiens pour tester vos connaissances et de vidéos courtes en français pour améliorer votre compréhension."
+    },
+    {
+      "id": 3,
+      "key": "progress_at_your_pace",
+      "frenchTitle": "Progressez à Votre Rythme",
+      "frenchContent": "Accédez à une sélection de ressources utiles pour perfectionner votre français et suivez votre progression au fil du temps."
+    }
+  ]
+}
