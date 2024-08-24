@@ -12,8 +12,8 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
 } from "react-native-reanimated";
-import OnboardingActions from "./onboarding-actions";
-import OnboardingView from "./onboarding-view";
+import OnboardingActions from "../components/onboarding-actions";
+import OnboardingView from "../components/onboarding-view";
 
 // SVGs for each step
 import Step1SVG from "../../assets/onboarding_step_1.svg";
@@ -45,10 +45,12 @@ const onboardingData = [
 
 interface OnboardingCarouselProps {
   onComplete: () => void;
+  navigation: any;
 }
 
 const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
   onComplete,
+  navigation
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useSharedValue(0);
@@ -56,27 +58,32 @@ const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
 
   const isLastSlide = currentIndex === onboardingData.length - 1;
 
+  const handleComplete = useCallback(() => {
+    onComplete();
+    navigation.replace('Home');
+  }, []);
+
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       scrollX.value = event.contentOffset.x;
     },
   });
 
-  const handleNext = useCallback(() => {
-    if (currentIndex < onboardingData.length - 1) {
-      setCurrentIndex(currentIndex + 1);
-      scrollTo(currentIndex + 1);
+  const handleNext = () => {
+    if (currentIndex >= onboardingData.length - 1) {
+      handleComplete();
     } else {
-      onComplete();
+      setCurrentIndex(prev => prev + 1);
+      scrollTo(currentIndex + 1);
     }
-  }, []);
+  };
 
-  const handlePrev = useCallback(() => {
+  const handlePrev = () => {
     if (currentIndex > 0) {
-      setCurrentIndex(currentIndex - 1);
+      setCurrentIndex(prev => prev - 1);
       scrollTo(currentIndex - 1);
     }
-  }, []);
+  };
 
   const scrollTo = (index: number) => {
     scrollViewRef.current?.scrollTo({
@@ -90,7 +97,7 @@ const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
   return (
     <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
       {!isLastSlide && (
-        <TouchableOpacity style={styles.skipButton} onPress={onComplete}>
+        <TouchableOpacity style={styles.skipButton} onPress={handleComplete}>
           <Text style={styles.skipButtonText}>Skip</Text>
         </TouchableOpacity>
       )}

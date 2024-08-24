@@ -16,7 +16,6 @@ const OnboardingActions: React.FC<OnboardingActionsProps> = ({
   onPrev,
 }) => {
   const isFirstSlide = currentIndex === 0;
-  const isLastSlide = currentIndex === totalScreens - 1;
 
   return (
     <View style={styles.container}>
@@ -39,12 +38,9 @@ const OnboardingActions: React.FC<OnboardingActionsProps> = ({
         ))}
       </View>
 
-      {!isLastSlide && (
-        <TouchableOpacity onPress={onNext} style={styles.actionButton}>
-          <AntDesign name="right" size={24} color="#007AFF" />
-        </TouchableOpacity>
-      )}
-      {isLastSlide && <View style={styles.placeholderButton} />}
+      <TouchableOpacity onPress={onNext} style={styles.actionButton}>
+        <AntDesign name="right" size={24} color="#007AFF" />
+      </TouchableOpacity>
     </View>
   );
 };

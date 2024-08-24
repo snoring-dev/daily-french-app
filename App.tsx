@@ -1,21 +1,37 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import OnboardingCarousel from "./src/components/onboarind-carousel";
+import OnboardingCarousel from "./src/screens/onboarind-screen";
+import HomeScreen from "./src/screens/home-screen";
+
+const Stack = createStackNavigator();
 
 export default function App() {
+  const handleOnboardingComplete = () => {
+    console.log("Onboarding complete!");
+  };
+
   return (
     <SafeAreaProvider>
-      <OnboardingCarousel onComplete={() => console.log("OnBoarding done!")} />
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="Onboarding"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="Onboarding">
+            {(props) => (
+              <OnboardingCarousel
+                {...props}
+                onComplete={handleOnboardingComplete}
+              />
+            )}
+          </Stack.Screen>
+          <Stack.Screen name="Home" component={HomeScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
