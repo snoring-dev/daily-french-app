@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     justifyContent: "center",
+    marginTop: 50,
   },
   textContainer: {
     flex: 1,
@@ -46,14 +47,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 16,
+    marginBottom: 18,
+    fontFamily: 'PoppinsBold'
   },
   content: {
     fontSize: 16,
     textAlign: "center",
+    fontFamily: 'Poppins'
   },
 });
 
