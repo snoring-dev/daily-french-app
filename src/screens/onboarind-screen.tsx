@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Animated, {
+  runOnJS,
+  useAnimatedRef,
   useAnimatedScrollHandler,
+  useDerivedValue,
   useSharedValue,
 } from "react-native-reanimated";
 import OnboardingActions from "../components/onboarding-actions";
@@ -55,6 +58,7 @@ const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useSharedValue(0);
   const insets = useSafeAreaInsets();
+  const scrollViewRef = useAnimatedRef<Animated.ScrollView>();
 
   const isLastSlide = currentIndex === onboardingData.length - 1;
 
@@ -67,6 +71,13 @@ const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
     onScroll: (event) => {
       scrollX.value = event.contentOffset.x;
     },
+  });
+
+  useDerivedValue(() => {
+    const newIndex = Math.round(scrollX.value / SCREEN_WIDTH);
+    if (newIndex !== currentIndex) {
+      runOnJS(setCurrentIndex)(newIndex);
+    }
   });
 
   const handleNext = () => {
@@ -91,8 +102,6 @@ const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
       animated: true,
     });
   };
-
-  const scrollViewRef = React.useRef<Animated.ScrollView>(null);
 
   return (
     <SafeAreaView style={[styles.container, { paddingTop: insets.top }]}>
