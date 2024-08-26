@@ -22,6 +22,7 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
   const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const screenLabels = getResources("register");
 
@@ -32,6 +33,10 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
   const onTermsChecked = useCallback(() => {
     setAgreeTerms((prev) => !prev);
   }, []);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -59,7 +64,11 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
               label={screenLabels.passwordField}
               value={password}
               onChangeText={setPassword}
-              type="password"
+              type={showPassword ? "text" : "password"}
+              leftIcon="lock-closed-outline"
+              rightIcon={showPassword ? "eye-off-outline" : "eye-outline"}
+              onRightIconPress={togglePasswordVisibility}
+              hint="Password must be at least 8 characters long"
             />
 
             <View style={styles.checkboxContainer}>
