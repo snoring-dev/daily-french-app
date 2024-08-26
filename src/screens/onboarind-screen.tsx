@@ -22,6 +22,7 @@ import OnboardingView from "../components/onboarding-view";
 import Step1SVG from "../../assets/onboarding_step_1.svg";
 import Step2SVG from "../../assets/onboarding_step_2.svg";
 import Step3SVG from "../../assets/onboarding_step_3.svg";
+import { NavigationProps } from "../utils/root-stack";
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
 
@@ -48,12 +49,13 @@ const onboardingData = [
 
 interface OnboardingCarouselProps {
   onComplete: () => void;
-  navigation: any;
 }
 
-const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
+type Props = OnboardingCarouselProps & NavigationProps;
+
+const OnboardingCarousel: React.FC<Props> = ({
   onComplete,
-  navigation
+  navigation,
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollX = useSharedValue(0);
@@ -64,7 +66,7 @@ const OnboardingCarousel: React.FC<OnboardingCarouselProps> = ({
 
   const handleComplete = useCallback(() => {
     onComplete();
-    navigation.replace('Home');
+    navigation.navigate('Home');
   }, []);
 
   const scrollHandler = useAnimatedScrollHandler({

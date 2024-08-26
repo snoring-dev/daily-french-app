@@ -6,6 +6,7 @@ import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
 import OnboardingCarousel from "./src/screens/onboarind-screen";
 import HomeScreen from "./src/screens/home-screen";
+import RegisterScreen from "./src/screens/register-screen";
 
 const Stack = createStackNavigator();
 
@@ -62,7 +63,7 @@ export default function App() {
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Onboarding"
+          initialRouteName="Register"
           screenOptions={{
             headerShown: false,
           }}
@@ -76,6 +77,7 @@ export default function App() {
             )}
           </Stack.Screen>
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Register" component={RegisterScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>
