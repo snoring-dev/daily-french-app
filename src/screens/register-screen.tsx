@@ -11,7 +11,9 @@ import {
 import Checkbox from "expo-checkbox";
 import { NavigationProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
-import InputField from "../components/input-field";
+import InputField from "../components/ui/input-field";
+import Button from "../components/ui/button";
+import CheckboxWithLink from "../components/checkbox-with-link";
 
 interface RegisterScreenProps {}
 
@@ -65,31 +67,32 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
               value={password}
               onChangeText={setPassword}
               type={showPassword ? "text" : "password"}
-              leftIcon="lock-closed-outline"
-              rightIcon={showPassword ? "eye-off-outline" : "eye-outline"}
+              rightIcon={showPassword ? "eye-outline" : "eye-off-outline"}
               onRightIconPress={togglePasswordVisibility}
-              hint="Password must be at least 8 characters long"
+              hint={screenLabels.passwordHint}
             />
 
-            <View style={styles.checkboxContainer}>
-              <Checkbox
-                style={{ marginBottom: 8, marginTop: 8 }}
-                value={agreeTerms}
-                onValueChange={onTermsChecked}
-              />
-              <Text style={styles.checkboxLabel}>
-                {screenLabels.agreeTerms}
-              </Text>
-            </View>
+            <CheckboxWithLink
+              checked={agreeTerms}
+              onValueChange={onTermsChecked}
+              label={screenLabels.agreeTermsPrefix}
+              linkText={screenLabels.termsAndConditions}
+              linkUrl="https://www.google.com"
+            />
 
-            <TouchableOpacity
-              style={styles.submitButton}
+            <Button
+              title={screenLabels.submitButton}
               onPress={handleRegister}
-            >
-              <Text style={styles.submitButtonText}>
-                {screenLabels.submitButton}
-              </Text>
-            </TouchableOpacity>
+              type="gradient"
+              size="large"
+              icon="arrow-forward"
+              iconPosition="right"
+              disabled={!agreeTerms}
+              loading={false}
+              gradientColors={["#1E0096", "#3300FF"]}
+              gradientStart={{ x: 0, y: 0 }}
+              gradientEnd={{ x: 1, y: 0 }}
+            />
           </View>
         </View>
       </ScrollView>

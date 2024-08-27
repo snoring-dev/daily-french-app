@@ -1,4 +1,5 @@
 import React from "react";
+import chroma from "chroma-js";
 import {
   View,
   Text,
@@ -70,8 +71,8 @@ const InputField: React.FC<InputFieldProps> = ({
           >
             <Ionicons
               name={leftIcon as any}
-              size={24}
-              color="#333"
+              size={20}
+              color="#818181"
               style={styles.inputWithLeftIcon}
             />
           </TouchableOpacity>
@@ -92,9 +93,9 @@ const InputField: React.FC<InputFieldProps> = ({
           >
             <Ionicons
               name={rightIcon as any}
-              size={24}
-              color="#333"
-              style={styles.inputWithRightIcon}
+              size={20}
+              color="#818181"
+              style={[styles.icon, styles.inputWithRightIcon]}
             />
           </TouchableOpacity>
         )}
@@ -111,22 +112,24 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 14,
     marginBottom: 5,
-    color: "#333",
+    color: "#000",
     fontFamily: "Poppins",
   },
   inputWrapper: {
     flexDirection: "row",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "#CCC",
     borderRadius: 5,
+    backgroundColor: '#F4F6F9'
   },
   input: {
     flex: 1,
     padding: 10,
     fontSize: 16,
     fontFamily: "Poppins",
-    position: "relative"
+    position: "relative",
+    backgroundColor: 'transparent'
   },
   inputWithLeftIcon: {
     marginLeft: 10,
@@ -135,6 +138,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   icon: {
+    backgroundColor: 'transparent'
   },
   hint: {
     fontSize: 12,
