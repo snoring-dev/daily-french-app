@@ -8,6 +8,7 @@ import OnboardingCarousel from "./src/screens/onboarind-screen";
 import HomeScreen from "./src/screens/home-screen";
 import RegisterScreen from "./src/screens/register-screen";
 import LoginScreen from "./src/screens/login-screen";
+import EmailValidationScreen from "./src/screens/email-validation";
 
 const Stack = createStackNavigator();
 
@@ -64,7 +65,7 @@ export default function App() {
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Register"
+          initialRouteName="EmailValidation"
           screenOptions={{
             headerShown: false,
           }}
@@ -79,6 +80,7 @@ export default function App() {
           </Stack.Screen>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen name="EmailValidation" component={EmailValidationScreen} />
           <Stack.Screen name="Login" component={LoginScreen} />
         </Stack.Navigator>
       </NavigationContainer>

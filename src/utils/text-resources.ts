@@ -25,6 +25,15 @@ type LoginResources = {
   registerNow: string;
 };
 
+type EmailValidationResources {
+  title: string;
+  subtitle: string;
+  codeField: string;
+  submitButton: string;
+  codeNotReceived: string;
+  resendCode: string;
+}
+
 export const TextResources = {
   register: {
     title: "Créez Votre Compte",
@@ -52,6 +61,14 @@ export const TextResources = {
     dontHaveAccount: "Vous n'avez pas de compte ?",
     registerNow: "Inscrivez-vous",
   } as LoginResources,
+  emailValidation: {
+    title: 'Confirmation',
+    subtitle: 'Un code de validation a été envoyé à votre e-mail. Vérifiez votre boîte de réception (et vos spams).',
+    codeField: "Code de validation",
+    codeNotReceived: "Vous n'avez pas reçu le code?",
+    resendCode: "Renvoyer!",
+    submitButton: "Valider mon compte",
+  } as EmailValidationResources,
 };
 
 export type ResourceKey = keyof typeof TextResources;
