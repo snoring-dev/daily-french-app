@@ -1,5 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet, ScrollView, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  SafeAreaView,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 import { NavigationProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
 import RegisterForm from "../components/register-form";
@@ -22,13 +32,20 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
 
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollView}>
-        <View style={styles.contentContainer}>
-          <Text style={styles.title}>{screenLabels.title}</Text>
-          <Text style={styles.subtitle}>{screenLabels.subtitle}</Text>
-          <RegisterForm onSubmit={handleRegister} />
-        </View>
-      </ScrollView>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.keyboardAvoidingView}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <ScrollView contentContainerStyle={styles.scrollView}>
+            <View style={styles.contentContainer}>
+              <Text style={styles.title}>{screenLabels.title}</Text>
+              <Text style={styles.subtitle}>{screenLabels.subtitle}</Text>
+              <RegisterForm onSubmit={handleRegister} />
+            </View>
+          </ScrollView>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
@@ -37,6 +54,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  keyboardAvoidingView: {
+    flex: 1,
   },
   scrollView: {
     flexGrow: 1,
