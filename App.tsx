@@ -64,7 +64,7 @@ export default function App() {
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Login"
+          initialRouteName="Register"
           screenOptions={{
             headerShown: false,
           }}
