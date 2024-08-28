@@ -25,14 +25,16 @@ type LoginResources = {
   registerNow: string;
 };
 
-type EmailValidationResources {
+type EmailValidationResources = {
   title: string;
   subtitle: string;
   codeField: string;
   submitButton: string;
   codeNotReceived: string;
   resendCode: string;
-}
+  invalidCodeLength: string;
+  codeContainsOnlyDigits: string;
+};
 
 export const TextResources = {
   register: {
@@ -62,12 +64,17 @@ export const TextResources = {
     registerNow: "Inscrivez-vous",
   } as LoginResources,
   emailValidation: {
-    title: 'Confirmation',
-    subtitle: 'Un code de validation a été envoyé à votre e-mail. Vérifiez votre boîte de réception (et vos spams).',
+    title: "Confirmation",
+    subtitle:
+      "Un code de validation a été envoyé à votre e-mail. Vérifiez votre boîte de réception (et vos spams).",
     codeField: "Code de validation",
     codeNotReceived: "Vous n'avez pas reçu le code?",
     resendCode: "Renvoyer!",
     submitButton: "Valider mon compte",
+    invalidCodeLength:
+      "Le code de vérification doit contenir exactement 8 chiffres.",
+    codeContainsOnlyDigits:
+      "Le code de vérification ne doit contenir que des chiffres.",
   } as EmailValidationResources,
 };
 

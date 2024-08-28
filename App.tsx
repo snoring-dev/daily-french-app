@@ -4,10 +4,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import OnboardingCarousel from "./src/screens/onboarind-screen";
-import HomeScreen from "./src/screens/home-screen";
-import RegisterScreen from "./src/screens/register-screen";
-import LoginScreen from "./src/screens/login-screen";
+import OnboardingCarousel from "./src/screens/onboarding";
+import HomeScreen from "./src/screens/home";
+import RegisterScreen from "./src/screens/register";
+import LoginScreen from "./src/screens/login";
 import EmailValidationScreen from "./src/screens/email-validation";
 
 const Stack = createStackNavigator();
@@ -65,7 +65,7 @@ export default function App() {
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="EmailValidation"
+          initialRouteName="Register"
           screenOptions={{
             headerShown: false,
           }}

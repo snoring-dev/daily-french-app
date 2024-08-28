@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://daily-french-api.vercel.app/api",
+  baseURL: "https://daily-french-api.vercel.app",
   headers: {
     "Content-Type": "application/json",
   },
@@ -23,7 +23,7 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error("API Error:", error);
+    console.error("API Error:", error.message);
     return Promise.reject(error);
   }
 );

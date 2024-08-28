@@ -19,13 +19,17 @@ const schema = z.object({
   }),
 });
 
-type FormData = z.infer<typeof schema>;
+export type FormData = z.infer<typeof schema>;
 
 interface RegisterFormProps {
   onSubmit: (formData: FormData) => void;
+  isSubmitting?: boolean;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
+const RegisterForm: React.FC<RegisterFormProps> = ({
+  onSubmit,
+  isSubmitting,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -44,6 +48,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
   return (
     <View style={styles.form}>
       <Controller
+        disabled={isSubmitting}
         control={control}
         name="email"
         render={({ field: { onChange, value } }) => (
@@ -58,6 +63,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       />
 
       <Controller
+        disabled={isSubmitting}
         control={control}
         name="phoneNumber"
         render={({ field: { onChange, value } }) => (
@@ -72,6 +78,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       />
 
       <Controller
+        disabled={isSubmitting}
         control={control}
         name="password"
         render={({ field: { onChange, value } }) => (
@@ -88,6 +95,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
       />
 
       <Controller
+        disabled={isSubmitting}
         control={control}
         name="agreeTerms"
         render={({ field: { onChange, value } }) => (
@@ -109,8 +117,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
         size="large"
         icon="arrow-forward"
         iconPosition="right"
-        disabled={!isValid}
-        loading={false}
+        disabled={!isValid || isSubmitting}
+        loading={isSubmitting}
         gradientColors={["#1E0096", "#3300FF"]}
         gradientStart={{ x: 0, y: 0 }}
         gradientEnd={{ x: 1, y: 0 }}

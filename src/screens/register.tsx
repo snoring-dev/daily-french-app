@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -13,6 +13,8 @@ import {
 import { NavigationProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
 import RegisterForm from "../components/register-form";
+import api from "../utils/request";
+import { saveUser } from "../service/users.service";
 
 interface RegisterScreenProps {}
 
@@ -20,14 +22,28 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
   navigation,
 }) => {
   const screenLabels = getResources("register");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleRegister = (formData: {
+  const handleRegister = async (formData: {
     email: string;
     phoneNumber: string;
     password: string;
     agreeTerms: boolean;
   }) => {
-    console.log("Register with:", formData);
+    try {
+      setIsLoading(true);
+      if (formData.agreeTerms) {
+        const success = await saveUser(formData);
+
+        if (success) {
+          navigation.navigate("EmailValidation", { email: formData.email });
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,7 +57,10 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
             <View style={styles.contentContainer}>
               <Text style={styles.title}>{screenLabels.title}</Text>
               <Text style={styles.subtitle}>{screenLabels.subtitle}</Text>
-              <RegisterForm onSubmit={handleRegister} />
+              <RegisterForm
+                onSubmit={handleRegister}
+                isSubmitting={isLoading}
+              />
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>

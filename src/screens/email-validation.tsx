@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -10,16 +10,40 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { NavigationProps } from "../utils/root-stack";
+import { EmailValidationScreenProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
 import EmailValidationForm from "../components/email-validation-form";
+import { submitValidationCode } from "../service/users.service";
 
-interface EmailValidationProps {}
-
-const EmailValidationScreen: React.FC<
-  EmailValidationProps & NavigationProps
-> = ({ navigation }) => {
+const EmailValidationScreen: React.FC<EmailValidationScreenProps> = ({
+  navigation,
+  route,
+}) => {
+  const [isLoading, setIsLoading] = useState(false);
   const screenLabels = getResources("emailValidation");
+  const { email } = route.params;
+
+  const handleCodeSubmit = useCallback(
+    async (formData: { email: string; code: number }) => {
+      try {
+        setIsLoading(true);
+        const resp = await submitValidationCode(formData.email, formData.code);
+        console.log(resp);
+        if (resp) {
+          navigation.navigate('Login');
+        }
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  const handleResend = useCallback(() => {
+    console.log("should resend validation code now!");
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -35,7 +59,12 @@ const EmailValidationScreen: React.FC<
             <View style={styles.contentContainer}>
               <Text style={styles.title}>{screenLabels.title}</Text>
               <Text style={styles.subtitle}>{screenLabels.subtitle}</Text>
-              <EmailValidationForm />
+              <EmailValidationForm
+                email={email}
+                onSubmit={handleCodeSubmit}
+                onRequestAnotherCode={handleResend}
+                isSubmitting={isLoading}
+              />
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
