@@ -15,6 +15,7 @@ import { getResources } from "../utils/text-resources";
 import LoginForm from "../components/login-form";
 import { showAlert } from "../utils/alert";
 import { doLogin } from "../service/auth.service";
+import { setJWT } from "../utils/auth";
 
 interface LoginScreenProps {}
 
@@ -32,6 +33,7 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
     try {
       setIsLoading(true);
       const jwt = await doLogin(formData);
+      await setJWT(jwt);
       navigation.navigate("Home");
     } catch (err: any) {
       console.log(err);

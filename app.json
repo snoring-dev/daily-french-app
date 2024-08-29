@@ -24,7 +24,11 @@
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
-      "expo-font"
+      "expo-font",
+      "expo-secure-store",
+      {
+        "faceIDPermission": "Allow DailyFrench to access your Face ID biometric data."
+      }
     ]
   }
 }
