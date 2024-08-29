@@ -5,7 +5,7 @@ export const saveUser = async (formData: FormData) => {
   const resp = await api.post("/users/register", {
     email: formData.email,
     password: formData.password,
-    phoneNumber: formData.phoneNumber,
+    phoneNumber: formatPhoneNumber(formData.phone),
   });
 
   return resp.data && resp.data.id;

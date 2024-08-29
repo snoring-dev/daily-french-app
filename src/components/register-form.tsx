@@ -1,18 +1,24 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
 import * as z from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import PhoneInput from "react-native-international-phone-number";
 import { getResources } from "../utils/text-resources";
 import InputField from "../components/ui/input-field";
 import Button from "../components/ui/button";
 import CheckboxWithLink from "../components/checkbox-with-link";
+import PhoneField from "./ui/phone-input";
 
 const screenLabels = getResources("register");
 
 const schema = z.object({
   email: z.string().email(screenLabels.invalidEmail),
-  phoneNumber: z.string().min(10, screenLabels.phoneNumberTooShort),
+  // phoneNumber: z.string().min(10, screenLabels.phoneNumberTooShort),
+  phone: z.object({
+    callingCode: z.string(),
+    number: z.string().min(10, screenLabels.phoneNumberTooShort),
+  }),
   password: z.string().min(8, screenLabels.passwordTooShort),
   agreeTerms: z.boolean().refine((val) => val === true, {
     message: screenLabels.mustAgreeTerms,
@@ -31,6 +37,16 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   isSubmitting,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [inputValue, setInputValue] = useState("");
+
+  function handleInputValue(phoneNumber: any) {
+    setInputValue(phoneNumber);
+  }
+
+  function handleSelectedCountry(country: any) {
+    setSelectedCountry(country);
+  }
 
   const {
     control,
@@ -38,6 +54,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
     formState: { errors, isValid },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      phone: { callingCode: "+33", number: "" },
+    },
     mode: "onChange",
   });
 
@@ -65,14 +84,16 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       <Controller
         disabled={isSubmitting}
         control={control}
-        name="phoneNumber"
+        name="phone"
         render={({ field: { onChange, value } }) => (
-          <InputField
+          <PhoneField
+            value={value.number}
             label={screenLabels.phoneField}
-            value={value}
-            onChangeText={onChange}
-            type="phone"
-            hint={errors.phoneNumber?.message}
+            onChangeText={({ callingCode, number }) => {
+              onChange({ callingCode, number });
+            }}
+            placeholder=""
+            hint={errors.phone?.number?.message}
           />
         )}
       />

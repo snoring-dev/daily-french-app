@@ -26,7 +26,7 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
 
   const handleRegister = async (formData: {
     email: string;
-    phoneNumber: string;
+    phone: { callingCode: string; number: string };
     password: string;
     agreeTerms: boolean;
   }) => {
