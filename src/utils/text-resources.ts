@@ -23,6 +23,7 @@ type LoginResources = {
   loginButton: string;
   dontHaveAccount: string;
   registerNow: string;
+  userNotFound: string;
 };
 
 type EmailValidationResources = {
@@ -72,6 +73,7 @@ export const TextResources = {
     loginButton: "Se connecter",
     dontHaveAccount: "Vous n'avez pas de compte ?",
     registerNow: "Inscrivez-vous",
+    userNotFound: "Utilisateur introuvable!",
   } as LoginResources,
   emailValidation: {
     title: "Confirmation",

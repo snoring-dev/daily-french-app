@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -13,17 +13,35 @@ import {
 import { NavigationProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
 import LoginForm from "../components/login-form";
+import { showAlert } from "../utils/alert";
+import { doLogin } from "../service/auth.service";
 
 interface LoginScreenProps {}
 
 const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
   navigation,
 }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const screenLabels = getResources("login");
 
-  const handleLogin = (email: string, password: string) => {
-    console.log("Login with:", { email, password });
-    // Handle login logic here
+  const handleLogin = async (formData: { email: string; password: string }) => {
+    console.log("Login with:", {
+      email: formData.email,
+      password: formData.password,
+    });
+    try {
+      setIsLoading(true);
+      const jwt = await doLogin(formData);
+      navigation.navigate("Home");
+    } catch (err: any) {
+      console.log(err);
+      showAlert({
+        title: getResources("global").errorTitle,
+        message: err.message,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleForgotPassword = () => {
@@ -52,6 +70,7 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
                 onLogin={handleLogin}
                 onForgotPassword={handleForgotPassword}
                 onRegister={handleRegister}
+                isSubmitting={isLoading}
               />
             </View>
           </ScrollView>
