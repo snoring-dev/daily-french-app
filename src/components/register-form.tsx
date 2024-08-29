@@ -3,7 +3,6 @@ import { View, StyleSheet } from "react-native";
 import * as z from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import PhoneInput from "react-native-international-phone-number";
 import { getResources } from "../utils/text-resources";
 import InputField from "../components/ui/input-field";
 import Button from "../components/ui/button";
@@ -14,7 +13,6 @@ const screenLabels = getResources("register");
 
 const schema = z.object({
   email: z.string().email(screenLabels.invalidEmail),
-  // phoneNumber: z.string().min(10, screenLabels.phoneNumberTooShort),
   phone: z.object({
     callingCode: z.string(),
     number: z.string().min(10, screenLabels.phoneNumberTooShort),
@@ -37,16 +35,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   isSubmitting,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(null);
-  const [inputValue, setInputValue] = useState("");
-
-  function handleInputValue(phoneNumber: any) {
-    setInputValue(phoneNumber);
-  }
-
-  function handleSelectedCountry(country: any) {
-    setSelectedCountry(country);
-  }
 
   const {
     control,
