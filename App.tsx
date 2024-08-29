@@ -9,6 +9,7 @@ import HomeScreen from "./src/screens/home";
 import RegisterScreen from "./src/screens/register";
 import LoginScreen from "./src/screens/login";
 import EmailValidationScreen from "./src/screens/email-validation";
+import { setOnboardingDone } from "./src/utils/storage";
 
 const Stack = createStackNavigator();
 
@@ -57,8 +58,9 @@ export default function App() {
     return null;
   }
 
-  const handleOnboardingComplete = () => {
+  const handleOnboardingComplete = async () => {
     console.log("Onboarding complete!");
+    await setOnboardingDone(true);
   };
 
   return (
@@ -80,7 +82,10 @@ export default function App() {
           </Stack.Screen>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
-          <Stack.Screen name="EmailValidation" component={EmailValidationScreen} />
+          <Stack.Screen
+            name="EmailValidation"
+            component={EmailValidationScreen}
+          />
           <Stack.Screen name="Login" component={LoginScreen} />
         </Stack.Navigator>
       </NavigationContainer>
