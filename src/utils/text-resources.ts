@@ -34,9 +34,19 @@ type EmailValidationResources = {
   resendCode: string;
   invalidCodeLength: string;
   codeContainsOnlyDigits: string;
+  resendCodeAlertTitle: string;
+  resendCodeAlertMessage: string;
+  resendCodeError: string;
+};
+
+type GlobalResources = {
+  errorTitle: string;
 };
 
 export const TextResources = {
+  global: {
+    errorTitle: "Erreur",
+  } as GlobalResources,
   register: {
     title: "Créez Votre Compte",
     subtitle: "Rejoignez notre communauté en quelques étapes simples",
@@ -75,6 +85,11 @@ export const TextResources = {
       "Le code de vérification doit contenir exactement 8 chiffres.",
     codeContainsOnlyDigits:
       "Le code de vérification ne doit contenir que des chiffres.",
+    resendCodeAlertTitle: "Code Envoyé",
+    resendCodeAlertMessage:
+      "Un nouveau code de validation a été envoyé à votre adresse e-mail.",
+    resendCodeError:
+      "Une erreur s'est produite lors de l'envoi du code. Veuillez réessayer.",
   } as EmailValidationResources,
 };
 

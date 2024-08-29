@@ -13,7 +13,11 @@ import {
 import { EmailValidationScreenProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
 import EmailValidationForm from "../components/email-validation-form";
-import { submitValidationCode } from "../service/users.service";
+import {
+  resendEmailValidationCode,
+  submitValidationCode,
+} from "../service/users.service";
+import { showCodeSendingErrorAlert, showCodeSentAlert } from "../utils/alert";
 
 const EmailValidationScreen: React.FC<EmailValidationScreenProps> = ({
   navigation,
@@ -30,7 +34,7 @@ const EmailValidationScreen: React.FC<EmailValidationScreenProps> = ({
         const resp = await submitValidationCode(formData.email, formData.code);
         console.log(resp);
         if (resp) {
-          navigation.navigate('Login');
+          navigation.navigate("Login");
         }
       } catch (e) {
         console.log(e);
@@ -41,8 +45,16 @@ const EmailValidationScreen: React.FC<EmailValidationScreenProps> = ({
     []
   );
 
-  const handleResend = useCallback(() => {
-    console.log("should resend validation code now!");
+  const handleResend = useCallback(async () => {
+    try {
+      const resp = await resendEmailValidationCode();
+      if (resp) {
+        showCodeSentAlert();
+      }
+    } catch (e) {
+      console.log(e);
+      showCodeSendingErrorAlert();
+    }
   }, []);
 
   return (
