@@ -12,6 +12,8 @@ type RegisterResources = {
   invalidEmail: string;
   phoneNumberTooShort: string;
   mustAgreeTerms: string;
+  alreadyHaveAccount: string;
+  loginNow: string;
 };
 
 type LoginResources = {
@@ -63,6 +65,8 @@ export const TextResources = {
       "Le numéro de téléphone doit comporter au moins 10 chiffres",
     passwordTooShort: "Le mot de passe doit contenir au moins 8 caractères",
     mustAgreeTerms: "Vous devez accepter les conditions générales",
+    alreadyHaveAccount: "Déja membre?",
+    loginNow: "Connectez-vous.",
   } as RegisterResources,
   login: {
     title: "Bon retour",

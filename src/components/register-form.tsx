@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import * as z from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,11 +27,13 @@ export type FormData = z.infer<typeof schema>;
 
 interface RegisterFormProps {
   onSubmit: (formData: FormData) => void;
+  onLogin: () => void;
   isSubmitting?: boolean;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({
   onSubmit,
+  onLogin,
   isSubmitting,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -132,6 +134,13 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         gradientStart={{ x: 0, y: 0 }}
         gradientEnd={{ x: 1, y: 0 }}
       />
+
+      <View style={styles.loginContainer}>
+        <Text style={styles.loginText}>{screenLabels.alreadyHaveAccount} </Text>
+        <TouchableOpacity onPress={onLogin}>
+          <Text style={styles.loginLink}>{screenLabels.loginNow}</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -139,6 +148,18 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 const styles = StyleSheet.create({
   form: {
     width: "100%",
+  },
+  loginContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 20,
+  },
+  loginText: {
+    fontFamily: "Poppins",
+  },
+  loginLink: {
+    color: "#007AFF",
+    fontFamily: "PoppinsBold",
   },
 });
 

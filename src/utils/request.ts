@@ -2,7 +2,7 @@ import axios from "axios";
 import { getJWT } from "./auth";
 
 const api = axios.create({
-  baseURL: "https://daily-french-api.vercel.app",
+  baseURL: "https://daily-french.com",
   headers: {
     "Content-Type": "application/json",
   },

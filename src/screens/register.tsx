@@ -60,6 +60,7 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
               <RegisterForm
                 onSubmit={handleRegister}
                 isSubmitting={isLoading}
+                onLogin={() => navigation.navigate("Login")}
               />
             </View>
           </ScrollView>
