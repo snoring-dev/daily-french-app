@@ -26,9 +26,12 @@
     "plugins": [
       "expo-font",
       "expo-secure-store",
-      {
-        "faceIDPermission": "Allow DailyFrench to access your Face ID biometric data."
-      }
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Allow DailyFrench to access your Face ID biometric data."
+        }
+      ]
     ]
   }
 }
