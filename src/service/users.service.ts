@@ -23,3 +23,7 @@ export const submitValidationCode = async (email: string, code: number) => {
   });
   return resp.data && resp.data.message;
 };
+
+export const getUserData = async () => {
+  return await api.get("/users/get-user-data");
+};

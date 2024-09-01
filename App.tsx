@@ -10,6 +10,7 @@ import RegisterScreen from "./src/screens/register";
 import LoginScreen from "./src/screens/login";
 import EmailValidationScreen from "./src/screens/email-validation";
 import { setOnboardingDone } from "./src/utils/storage";
+import { getUserData } from "./src/service/users.service";
 
 const Stack = createStackNavigator();
 
@@ -17,22 +18,38 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
+  const [initialScreen, setInitialScreen] = useState("Login");
+
+  const loadFonts = async () => {
+    await Font.loadAsync({
+      Lora: require("./assets/fonts/lora/LoraRegular.ttf"),
+      LoraMedium: require("./assets/fonts/lora/LoraMedium.ttf"),
+      LoraSemiBold: require("./assets/fonts/lora/LoraSemiBold.ttf"),
+      LoraBold: require("./assets/fonts/lora/LoraBold.ttf"),
+      Poppins: require("./assets/fonts/poppins/PoppinsRegular.ttf"),
+      PoppinsThin: require("./assets/fonts/poppins/PoppinsThin.ttf"),
+      PoppinsLight: require("./assets/fonts/poppins/PoppinsLight.ttf"),
+      PoppinsSemiBold: require("./assets/fonts/poppins/PoppinsSemiBold.ttf"),
+      PoppinsBold: require("./assets/fonts/poppins/PoppinsBold.ttf"),
+      PoppinsBlack: require("./assets/fonts/poppins/PoppinsBlack.ttf"),
+    });
+  };
+
+  const loadUserData = async () => {
+    const response = await getUserData();
+
+    if (response.data.id) {
+      setInitialScreen("Home");
+    }
+
+    console.log(response.data);
+  };
 
   useEffect(() => {
     async function prepare() {
       try {
-        await Font.loadAsync({
-          Lora: require("./assets/fonts/lora/LoraRegular.ttf"),
-          LoraMedium: require("./assets/fonts/lora/LoraMedium.ttf"),
-          LoraSemiBold: require("./assets/fonts/lora/LoraSemiBold.ttf"),
-          LoraBold: require("./assets/fonts/lora/LoraBold.ttf"),
-          Poppins: require("./assets/fonts/poppins/PoppinsRegular.ttf"),
-          PoppinsThin: require("./assets/fonts/poppins/PoppinsThin.ttf"),
-          PoppinsLight: require("./assets/fonts/poppins/PoppinsLight.ttf"),
-          PoppinsSemiBold: require("./assets/fonts/poppins/PoppinsSemiBold.ttf"),
-          PoppinsBold: require("./assets/fonts/poppins/PoppinsBold.ttf"),
-          PoppinsBlack: require("./assets/fonts/poppins/PoppinsBlack.ttf"),
-        });
+        await loadFonts();
+        await loadUserData();
       } catch (e) {
         console.warn(e);
       } finally {
@@ -63,11 +80,13 @@ export default function App() {
     await setOnboardingDone(true);
   };
 
+  console.log("initialScreen =>", initialScreen);
+
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Register"
+          initialRouteName={initialScreen}
           screenOptions={{
             headerShown: false,
           }}
