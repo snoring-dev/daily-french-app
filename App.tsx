@@ -11,14 +11,17 @@ import LoginScreen from "./src/screens/login";
 import EmailValidationScreen from "./src/screens/email-validation";
 import { setOnboardingDone } from "./src/utils/storage";
 import { getUserData } from "./src/service/users.service";
+import { RootStackParamList } from "./src/utils/root-stack";
 
 const Stack = createStackNavigator();
+
+type Screens = keyof RootStackParamList;
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
-  const [initialScreen, setInitialScreen] = useState("Login");
+  const [initialScreen, setInitialScreen] = useState<Screens>("Login");
 
   const loadFonts = async () => {
     await Font.loadAsync({
