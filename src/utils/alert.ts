@@ -52,3 +52,11 @@ export const showCodeSendingErrorAlert = (onOk?: () => void) => {
     onOk,
   });
 };
+
+export const showErrorAlert = (message: string, onOk?: () => void) => {
+  showAlert({
+    title: getResources("global").errorTitle,
+    message,
+    onOk,
+  });
+};

@@ -13,13 +13,19 @@ import {
 import { ResetPasswordValidationScreenProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
 import EmailValidationForm from "../components/email-validation-form";
-import { showCodeSendingErrorAlert, showCodeSentAlert } from "../utils/alert";
-import { requestPasswordReset, sendValidationCode } from "../service/auth.service";
+import {
+  showCodeSendingErrorAlert,
+  showCodeSentAlert,
+  showErrorAlert,
+} from "../utils/alert";
+import {
+  requestPasswordReset,
+  sendValidationCode,
+} from "../service/auth.service";
 
-const ResetPasswordValidationScreen: React.FC<ResetPasswordValidationScreenProps> = ({
-  navigation,
-  route,
-}) => {
+const ResetPasswordValidationScreen: React.FC<
+  ResetPasswordValidationScreenProps
+> = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(false);
   const screenLabels = getResources("emailValidation");
   const { email } = route.params;
@@ -30,8 +36,8 @@ const ResetPasswordValidationScreen: React.FC<ResetPasswordValidationScreenProps
         setIsLoading(true);
         await sendValidationCode(formData.email, formData.code);
         navigation.navigate("RedefinePassword", { email });
-      } catch (e) {
-        console.log(e);
+      } catch (e: any) {
+        showErrorAlert(e.message);
       } finally {
         setIsLoading(false);
       }
@@ -44,7 +50,6 @@ const ResetPasswordValidationScreen: React.FC<ResetPasswordValidationScreenProps
       await requestPasswordReset({ email });
       showCodeSentAlert();
     } catch (e) {
-      console.log(e);
       showCodeSendingErrorAlert();
     }
   }, []);

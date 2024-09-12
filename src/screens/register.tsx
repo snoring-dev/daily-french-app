@@ -15,6 +15,7 @@ import { getResources } from "../utils/text-resources";
 import RegisterForm from "../components/register-form";
 import api from "../utils/request";
 import { saveUser } from "../service/users.service";
+import { showErrorAlert } from "../utils/alert";
 
 interface RegisterScreenProps {}
 
@@ -39,8 +40,8 @@ const RegisterScreen: React.FC<RegisterScreenProps & NavigationProps> = ({
           navigation.navigate("EmailValidation", { email: formData.email });
         }
       }
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      showErrorAlert(e.message);
     } finally {
       setIsLoading(false);
     }

@@ -17,7 +17,11 @@ import {
   resendEmailValidationCode,
   submitValidationCode,
 } from "../service/users.service";
-import { showCodeSendingErrorAlert, showCodeSentAlert } from "../utils/alert";
+import {
+  showCodeSendingErrorAlert,
+  showCodeSentAlert,
+  showErrorAlert,
+} from "../utils/alert";
 
 const EmailValidationScreen: React.FC<EmailValidationScreenProps> = ({
   navigation,
@@ -32,12 +36,11 @@ const EmailValidationScreen: React.FC<EmailValidationScreenProps> = ({
       try {
         setIsLoading(true);
         const resp = await submitValidationCode(formData.email, formData.code);
-        console.log(resp);
         if (resp) {
           navigation.navigate("Login");
         }
-      } catch (e) {
-        console.log(e);
+      } catch (e: any) {
+        showErrorAlert(e.message);
       } finally {
         setIsLoading(false);
       }
@@ -51,8 +54,8 @@ const EmailValidationScreen: React.FC<EmailValidationScreenProps> = ({
       if (resp) {
         showCodeSentAlert();
       }
-    } catch (e) {
-      console.log(e);
+    } catch (e: any) {
+      showErrorAlert(e.message);
       showCodeSendingErrorAlert();
     }
   }, []);

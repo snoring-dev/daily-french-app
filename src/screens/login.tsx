@@ -32,7 +32,6 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
       await setJWT(jwt);
       navigation.navigate("Home");
     } catch (err: any) {
-      console.log(err);
       showAlert({
         title: getResources("global").errorTitle,
         message: err.message,

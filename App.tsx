@@ -47,8 +47,6 @@ export default function App() {
     if (response.data.id) {
       setInitialScreen("Home");
     }
-
-    console.log(response.data);
   };
 
   useEffect(() => {
@@ -82,11 +80,8 @@ export default function App() {
   }
 
   const handleOnboardingComplete = async () => {
-    console.log("Onboarding complete!");
     await setOnboardingDone(true);
   };
-
-  console.log("initialScreen =>", initialScreen);
 
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>

@@ -37,7 +37,6 @@ const RedefinePasswordScreen: React.FC<RedefinePasswordScreenProps> = ({
       });
       navigation.navigate("Login");
     } catch (err: any) {
-      console.log(err);
       showAlert({
         title: getResources("global").errorTitle,
         message: err.message,
