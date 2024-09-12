@@ -10,27 +10,32 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { NavigationProps } from "../utils/root-stack";
+import { RedefinePasswordScreenProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
-import LoginForm from "../components/login-form";
+import RedefinePasswordForm from "../components/redefine-password-form";
 import { showAlert } from "../utils/alert";
-import { doLogin } from "../service/auth.service";
-import { setJWT } from "../utils/auth";
+import { setNewPassword } from "../service/auth.service";
 
-interface LoginScreenProps {}
-
-const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
+const RedefinePasswordScreen: React.FC<RedefinePasswordScreenProps> = ({
   navigation,
+  route,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const screenLabels = getResources("login");
+  const screenLabels = getResources("redefinePassword");
+  const { email } = route.params;
 
-  const handleLogin = async (formData: { email: string; password: string }) => {
+  const handleRedefinePassword = async (formData: {
+    password: string;
+    confirmPassword: string;
+  }) => {
     try {
       setIsLoading(true);
-      const jwt = await doLogin(formData);
-      await setJWT(jwt);
-      navigation.navigate("Home");
+      await setNewPassword(email, formData.password, formData.confirmPassword);
+      showAlert({
+        title: screenLabels.successTitle,
+        message: screenLabels.successMessage,
+      });
+      navigation.navigate("Login");
     } catch (err: any) {
       console.log(err);
       showAlert({
@@ -40,14 +45,6 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleForgotPassword = () => {
-    navigation.navigate("ResetPassword");
-  };
-
-  const handleRegister = () => {
-    navigation.navigate("Register");
   };
 
   return (
@@ -64,10 +61,8 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
             <View style={styles.contentContainer}>
               <Text style={styles.title}>{screenLabels.title}</Text>
               <Text style={styles.subtitle}>{screenLabels.subtitle}</Text>
-              <LoginForm
-                onLogin={handleLogin}
-                onForgotPassword={handleForgotPassword}
-                onRegister={handleRegister}
+              <RedefinePasswordForm
+                onRedefinePassword={handleRedefinePassword}
                 isSubmitting={isLoading}
               />
             </View>
@@ -112,4 +107,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RedefinePasswordScreen;

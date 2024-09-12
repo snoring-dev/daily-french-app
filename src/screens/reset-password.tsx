@@ -12,42 +12,30 @@ import {
 } from "react-native";
 import { NavigationProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
-import LoginForm from "../components/login-form";
-import { showAlert } from "../utils/alert";
-import { doLogin } from "../service/auth.service";
-import { setJWT } from "../utils/auth";
+import ResetPasswordForm from "../components/reset-password-form";
+import { requestPasswordReset } from "../service/auth.service";
+import { showCodeSendingErrorAlert, showCodeSentAlert } from "../utils/alert";
 
-interface LoginScreenProps {}
+interface ResetPasswordProps {}
 
-const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
+const ResetPasswordScreen: React.FC<ResetPasswordProps & NavigationProps> = ({
   navigation,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const screenLabels = getResources("login");
+  const screenLabels = getResources("resetPassword");
 
-  const handleLogin = async (formData: { email: string; password: string }) => {
+  const requestPasswordModification = async (data: { email: string }) => {
     try {
       setIsLoading(true);
-      const jwt = await doLogin(formData);
-      await setJWT(jwt);
-      navigation.navigate("Home");
-    } catch (err: any) {
-      console.log(err);
-      showAlert({
-        title: getResources("global").errorTitle,
-        message: err.message,
+      await requestPasswordReset(data);
+      showCodeSentAlert(() => {
+        navigation.navigate("ResetPasswordValidation", { email: data.email });
       });
+    } catch (e: any) {
+      showCodeSendingErrorAlert();
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const handleForgotPassword = () => {
-    navigation.navigate("ResetPassword");
-  };
-
-  const handleRegister = () => {
-    navigation.navigate("Register");
   };
 
   return (
@@ -64,11 +52,10 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
             <View style={styles.contentContainer}>
               <Text style={styles.title}>{screenLabels.title}</Text>
               <Text style={styles.subtitle}>{screenLabels.subtitle}</Text>
-              <LoginForm
-                onLogin={handleLogin}
-                onForgotPassword={handleForgotPassword}
-                onRegister={handleRegister}
+              <ResetPasswordForm
                 isSubmitting={isLoading}
+                onConfirm={requestPasswordModification}
+                redirectToLogin={() => navigation.navigate("Login")}
               />
             </View>
           </ScrollView>
@@ -112,4 +99,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default ResetPasswordScreen;

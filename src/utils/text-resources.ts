@@ -28,6 +28,16 @@ type LoginResources = {
   userNotFound: string;
 };
 
+type ResetPasswordResources = {
+  title: string;
+  subtitle: string;
+  emailField: string;
+  wrongEmail: string;
+  submitButton: string;
+  alreadyHaveAccount: string;
+  loginNow: string;
+};
+
 type EmailValidationResources = {
   title: string;
   subtitle: string;
@@ -44,6 +54,19 @@ type EmailValidationResources = {
 
 type GlobalResources = {
   errorTitle: string;
+};
+
+type RedefinePasswordResources = {
+  title: string;
+  subtitle: string;
+  newPasswordField: string;
+  confirmPasswordField: string;
+  redefinePasswordButton: string;
+  passwordsDontMatch: string;
+  successTitle: string;
+  errorTitle: string;
+  errorMessage: string;
+  successMessage: string;
 };
 
 export const TextResources = {
@@ -97,6 +120,30 @@ export const TextResources = {
     resendCodeError:
       "Une erreur s'est produite lors de l'envoi du code. Veuillez réessayer.",
   } as EmailValidationResources,
+  resetPassword: {
+    title: "Mot de passe oublié?",
+    subtitle:
+      "Pas de panique, vous pouvez redéfinir votre mot de passe facilement.",
+    emailField: "Adresse e-mail",
+    wrongEmail: "Vous avez donné une adresse e-mail invalide.",
+    submitButton: "Confirmer",
+    alreadyHaveAccount: "Déja membre?",
+    loginNow: "Connectez-vous.",
+  } as ResetPasswordResources,
+  redefinePassword: {
+    title: "Réinitialisez votre mot de passe",
+    subtitle: "Veuillez entrer votre nouveau mot de passe",
+    newPasswordField: "Nouveau mot de passe",
+    confirmPasswordField: "Confirmer le nouveau mot de passe",
+    redefinePasswordButton: "Réinitialiser le mot de passe",
+    passwordsDontMatch: "Les mots de passe ne correspondent pas",
+    successTitle: "Mot de passe réinitialisé avec succès",
+    successMessage:
+      "Votre mot de passe a été réinitialisé avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+    errorTitle: "Erreur",
+    errorMessage:
+      "Une erreur s'est produite lors de la réinitialisation de votre mot de passe. Veuillez réessayer.",
+  } as RedefinePasswordResources,
 };
 
 export type ResourceKey = keyof typeof TextResources;

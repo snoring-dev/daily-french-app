@@ -12,6 +12,9 @@ import EmailValidationScreen from "./src/screens/email-validation";
 import { setOnboardingDone } from "./src/utils/storage";
 import { getUserData } from "./src/service/users.service";
 import { RootStackParamList } from "./src/utils/root-stack";
+import ResetPasswordValidationScreen from "./src/screens/reset-password-validation";
+import ResetPasswordScreen from "./src/screens/reset-password";
+import RedefinePasswordScreen from "./src/screens/redefine-password";
 
 const Stack = createStackNavigator();
 
@@ -106,9 +109,20 @@ export default function App() {
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen
             name="EmailValidation"
-            component={EmailValidationScreen}
+            component={EmailValidationScreen as React.ComponentType<any>}
           />
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen
+            name="ResetPasswordValidation"
+            component={
+              ResetPasswordValidationScreen as React.ComponentType<any>
+            }
+          />
+          <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+          <Stack.Screen
+            name="RedefinePassword"
+            component={RedefinePasswordScreen as React.ComponentType<any>}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

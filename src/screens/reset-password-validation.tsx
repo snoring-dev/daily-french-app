@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   View,
   Text,
@@ -10,45 +10,44 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from "react-native";
-import { NavigationProps } from "../utils/root-stack";
+import { ResetPasswordValidationScreenProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
-import LoginForm from "../components/login-form";
-import { showAlert } from "../utils/alert";
-import { doLogin } from "../service/auth.service";
-import { setJWT } from "../utils/auth";
+import EmailValidationForm from "../components/email-validation-form";
+import { showCodeSendingErrorAlert, showCodeSentAlert } from "../utils/alert";
+import { requestPasswordReset, sendValidationCode } from "../service/auth.service";
 
-interface LoginScreenProps {}
-
-const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
+const ResetPasswordValidationScreen: React.FC<ResetPasswordValidationScreenProps> = ({
   navigation,
+  route,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const screenLabels = getResources("login");
+  const screenLabels = getResources("emailValidation");
+  const { email } = route.params;
 
-  const handleLogin = async (formData: { email: string; password: string }) => {
+  const handleCodeSubmit = useCallback(
+    async (formData: { email: string; code: number }) => {
+      try {
+        setIsLoading(true);
+        await sendValidationCode(formData.email, formData.code);
+        navigation.navigate("RedefinePassword", { email });
+      } catch (e) {
+        console.log(e);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    []
+  );
+
+  const handleResend = useCallback(async () => {
     try {
-      setIsLoading(true);
-      const jwt = await doLogin(formData);
-      await setJWT(jwt);
-      navigation.navigate("Home");
-    } catch (err: any) {
-      console.log(err);
-      showAlert({
-        title: getResources("global").errorTitle,
-        message: err.message,
-      });
-    } finally {
-      setIsLoading(false);
+      await requestPasswordReset({ email });
+      showCodeSentAlert();
+    } catch (e) {
+      console.log(e);
+      showCodeSendingErrorAlert();
     }
-  };
-
-  const handleForgotPassword = () => {
-    navigation.navigate("ResetPassword");
-  };
-
-  const handleRegister = () => {
-    navigation.navigate("Register");
-  };
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -64,10 +63,10 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
             <View style={styles.contentContainer}>
               <Text style={styles.title}>{screenLabels.title}</Text>
               <Text style={styles.subtitle}>{screenLabels.subtitle}</Text>
-              <LoginForm
-                onLogin={handleLogin}
-                onForgotPassword={handleForgotPassword}
-                onRegister={handleRegister}
+              <EmailValidationForm
+                email={email}
+                onSubmit={handleCodeSubmit}
+                onRequestAnotherCode={handleResend}
                 isSubmitting={isLoading}
               />
             </View>
@@ -112,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default ResetPasswordValidationScreen;
