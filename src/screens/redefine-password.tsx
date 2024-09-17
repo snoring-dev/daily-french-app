@@ -91,6 +91,9 @@ const styles = StyleSheet.create({
     paddingVertical: 40,
   },
   title: {
+    width: "80%",
+    marginLeft: "auto",
+    marginRight: "auto",
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 10,

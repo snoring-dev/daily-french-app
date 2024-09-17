@@ -53,7 +53,7 @@ const ResetPasswordForm: React.FC<ResetPasswordProps> = ({
       />
 
       <Button
-        title={screenLabels.}
+        title={screenLabels.submitButton}
         onPress={handleSubmit(onConfirm)}
         type="gradient"
         size="large"

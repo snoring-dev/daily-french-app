@@ -34,8 +34,6 @@ const EmailValidationForm: React.FC<EmailValidationFormProps> = ({
   onSubmit,
   onRequestAnotherCode,
 }) => {
-  // const [validationCode, setValidationCode] = useState("");
-
   const {
     control,
     handleSubmit,
@@ -43,14 +41,10 @@ const EmailValidationForm: React.FC<EmailValidationFormProps> = ({
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      email,
+      email: email ?? '',
     },
     mode: "onChange",
   });
-
-  // const setCode = useCallback((value: string) => {
-  //   setValidationCode(value);
-  // }, []);
 
   return (
     <View style={styles.form}>

@@ -31,7 +31,7 @@ export const requestPasswordReset = async (formData: ResetPasswordData) => {
 export const sendValidationCode = async (email: string, code: number) => {
   const resp = await api.post("/password-reset/verify", {
     email,
-    verificationCode: String(code),
+    code: String(code),
   });
 
   return resp.data && resp.data.message;
