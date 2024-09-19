@@ -1,10 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import PicturePicker from "../components/picture-picker";
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to the Home Screen!</Text>
+      <PicturePicker />
     </View>
   );
 };
