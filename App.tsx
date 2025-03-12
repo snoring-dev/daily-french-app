@@ -4,33 +4,55 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import OnboardingCarousel from "./src/screens/onboarind-screen";
-import HomeScreen from "./src/screens/home-screen";
-import RegisterScreen from "./src/screens/register-screen";
-import LoginScreen from "./src/screens/login-screen";
+import OnboardingCarousel from "./src/screens/onboarding";
+import HomeScreen from "./src/screens/home";
+import RegisterScreen from "./src/screens/register";
+import LoginScreen from "./src/screens/login";
+import EmailValidationScreen from "./src/screens/email-validation";
+import { setOnboardingDone } from "./src/utils/storage";
+import { getUserData } from "./src/service/users.service";
+import { RootStackParamList } from "./src/utils/root-stack";
 
 const Stack = createStackNavigator();
+
+type Screens = keyof RootStackParamList;
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
+  const [initialScreen, setInitialScreen] = useState<Screens>("Login");
+
+  const loadFonts = async () => {
+    await Font.loadAsync({
+      Lora: require("./assets/fonts/lora/LoraRegular.ttf"),
+      LoraMedium: require("./assets/fonts/lora/LoraMedium.ttf"),
+      LoraSemiBold: require("./assets/fonts/lora/LoraSemiBold.ttf"),
+      LoraBold: require("./assets/fonts/lora/LoraBold.ttf"),
+      Poppins: require("./assets/fonts/poppins/PoppinsRegular.ttf"),
+      PoppinsThin: require("./assets/fonts/poppins/PoppinsThin.ttf"),
+      PoppinsLight: require("./assets/fonts/poppins/PoppinsLight.ttf"),
+      PoppinsSemiBold: require("./assets/fonts/poppins/PoppinsSemiBold.ttf"),
+      PoppinsBold: require("./assets/fonts/poppins/PoppinsBold.ttf"),
+      PoppinsBlack: require("./assets/fonts/poppins/PoppinsBlack.ttf"),
+    });
+  };
+
+  const loadUserData = async () => {
+    const response = await getUserData();
+
+    if (response.data.id) {
+      setInitialScreen("Home");
+    }
+
+    console.log(response.data);
+  };
 
   useEffect(() => {
     async function prepare() {
       try {
-        await Font.loadAsync({
-          Lora: require("./assets/fonts/lora/LoraRegular.ttf"),
-          LoraMedium: require("./assets/fonts/lora/LoraMedium.ttf"),
-          LoraSemiBold: require("./assets/fonts/lora/LoraSemiBold.ttf"),
-          LoraBold: require("./assets/fonts/lora/LoraBold.ttf"),
-          Poppins: require("./assets/fonts/poppins/PoppinsRegular.ttf"),
-          PoppinsThin: require("./assets/fonts/poppins/PoppinsThin.ttf"),
-          PoppinsLight: require("./assets/fonts/poppins/PoppinsLight.ttf"),
-          PoppinsSemiBold: require("./assets/fonts/poppins/PoppinsSemiBold.ttf"),
-          PoppinsBold: require("./assets/fonts/poppins/PoppinsBold.ttf"),
-          PoppinsBlack: require("./assets/fonts/poppins/PoppinsBlack.ttf"),
-        });
+        await loadFonts();
+        await loadUserData();
       } catch (e) {
         console.warn(e);
       } finally {
@@ -56,15 +78,18 @@ export default function App() {
     return null;
   }
 
-  const handleOnboardingComplete = () => {
+  const handleOnboardingComplete = async () => {
     console.log("Onboarding complete!");
+    await setOnboardingDone(true);
   };
+
+  console.log("initialScreen =>", initialScreen);
 
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Login"
+          initialRouteName={initialScreen}
           screenOptions={{
             headerShown: false,
           }}
@@ -79,6 +104,10 @@ export default function App() {
           </Stack.Screen>
           <Stack.Screen name="Home" component={HomeScreen} />
           <Stack.Screen name="Register" component={RegisterScreen} />
+          <Stack.Screen
+            name="EmailValidation"
+            component={EmailValidationScreen}
+          />
           <Stack.Screen name="Login" component={LoginScreen} />
         </Stack.Navigator>
       </NavigationContainer>

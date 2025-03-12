@@ -1,5 +1,4 @@
 import React from "react";
-import chroma from "chroma-js";
 import {
   View,
   Text,

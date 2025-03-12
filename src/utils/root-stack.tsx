@@ -6,8 +6,15 @@ export type RootStackParamList = {
   Home: undefined;
   Onboarding: undefined;
   ResetPassword: undefined;
-  EmailValidation: undefined;
+  EmailValidation: {
+    email: string;
+  };
   ResetPasswordValidation: undefined;
 };
 
 export type NavigationProps = NativeStackScreenProps<RootStackParamList>;
+
+export type EmailValidationScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "EmailValidation"
+>;
