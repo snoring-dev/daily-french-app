@@ -1,6 +1,7 @@
 import * as SecureStore from "expo-secure-store";
 
 export const JWT_KEY = "user_jwt";
+export const USER_DATA_KEY = "user_data";
 
 export async function getJWT(): Promise<string | null> {
   try {
@@ -26,3 +27,25 @@ export async function removeJWT(): Promise<void> {
     console.error("Error removing JWT:", error);
   }
 }
+
+export async function saveUserData(userData: any): Promise<void> {
+  try {
+    const userDataString = JSON.stringify(userData);
+    await SecureStore.setItemAsync(USER_DATA_KEY, userDataString);
+  } catch (error) {
+    console.error("Error storing user data:", error);
+  }
+}
+
+export async function getLocalUserData(): Promise<any | null> {
+  try {
+    const userDataString = await SecureStore.getItemAsync(USER_DATA_KEY);
+    if (!userDataString) return null;
+    return JSON.parse(userDataString);
+  } catch (error) {
+    console.error("Error retrieving user data:", error);
+    return null;
+  }
+}
+
+

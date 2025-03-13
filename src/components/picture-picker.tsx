@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import api from "../utils/request";
+import { getLocalUserData } from "../utils/auth";
 
 const PicturePicker = () => {
   const [image, setImage] = useState<string | null>(null);
@@ -39,7 +40,8 @@ const PicturePicker = () => {
     } as any);
 
     try {
-      await api.post(`/users/${7}/profile-picture`, formData, {
+      const { id: userId } = await getLocalUserData();
+      await api.post(`/users/${userId}/profile-picture`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

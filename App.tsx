@@ -12,6 +12,7 @@ import EmailValidationScreen from "./src/screens/email-validation";
 import { setOnboardingDone } from "./src/utils/storage";
 import { getUserData } from "./src/service/users.service";
 import { RootStackParamList } from "./src/utils/root-stack";
+import { saveUserData } from "./src/utils/auth";
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ export default function App() {
     const response = await getUserData();
 
     if (response.data.id) {
+      await saveUserData(response.data);
       setInitialScreen("Home");
     }
 

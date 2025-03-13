@@ -15,7 +15,8 @@ import { getResources } from "../utils/text-resources";
 import LoginForm from "../components/login-form";
 import { showAlert } from "../utils/alert";
 import { doLogin } from "../service/auth.service";
-import { setJWT } from "../utils/auth";
+import { saveUserData, setJWT } from "../utils/auth";
+import { getUserData } from "../service/users.service";
 
 interface LoginScreenProps {}
 
@@ -34,6 +35,8 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
       setIsLoading(true);
       const jwt = await doLogin(formData);
       await setJWT(jwt);
+      const userData = await getUserData();
+      await saveUserData(userData);
       navigation.navigate("Home");
     } catch (err: any) {
       console.log(err);
