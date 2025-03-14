@@ -42,6 +42,24 @@ type EmailValidationResources = {
   resendCodeError: string;
 };
 
+type UserInformationResources = {
+  title: string;
+  subtitle: string;
+  firstNameField: string;
+  lastNameField: string;
+  phoneField: string;
+  submitButton: string;
+  firstNameRequired: string;
+  lastNameRequired: string;
+  phoneNumberRequired: string;
+  invalidPhoneNumber: string;
+  updateSuccess: string;
+  updateError: string;
+  firstNamePlaceholder: string;
+  lastNamePlaceholder: string;
+  phonePlaceholder: string;
+};
+
 type GlobalResources = {
   errorTitle: string;
 };
@@ -97,6 +115,23 @@ export const TextResources = {
     resendCodeError:
       "Une erreur s'est produite lors de l'envoi du code. Veuillez réessayer.",
   } as EmailValidationResources,
+  userInformation: {
+    title: "Modifier Votre Profil",
+    subtitle: "Mettez à jour vos informations personnelles",
+    firstNameField: "Prénom",
+    lastNameField: "Nom",
+    phoneField: "Numéro de téléphone",
+    submitButton: "Mettre à jour mon profil",
+    firstNameRequired: "Le prénom est requis",
+    lastNameRequired: "Le nom est requis",
+    phoneNumberRequired: "Le numéro de téléphone est requis",
+    invalidPhoneNumber: "Numéro de téléphone invalide",
+    updateSuccess: "Profil mis à jour avec succès!",
+    updateError: "Échec de la mise à jour du profil. Veuillez réessayer.",
+    firstNamePlaceholder: "Entrez votre prénom",
+    lastNamePlaceholder: "Entrez votre nom",
+    phonePlaceholder: "Entrez votre numéro de téléphone"
+  } as UserInformationResources,
 };
 
 export type ResourceKey = keyof typeof TextResources;

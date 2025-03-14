@@ -40,6 +40,7 @@ export async function saveUserData(userData: any): Promise<void> {
 export async function getLocalUserData(): Promise<any | null> {
   try {
     const userDataString = await SecureStore.getItemAsync(USER_DATA_KEY);
+    console.log('USER_DATA:Storage =>', userDataString);
     if (!userDataString) return null;
     return JSON.parse(userDataString);
   } catch (error) {
