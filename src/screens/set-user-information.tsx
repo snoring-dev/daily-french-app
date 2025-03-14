@@ -78,15 +78,11 @@ const SetUserInformationScreen: React.FC<
       });
 
       if (response.status === 200) {
-        alert(screenLabels.updateSuccess || "Profile updated successfully!");
-        navigation.goBack();
+        navigation.push("Home");
       }
     } catch (error) {
       console.error("Error updating profile:", error);
-      alert(
-        screenLabels.updateError ||
-          "Failed to update profile. Please try again."
-      );
+      alert(screenLabels.updateError);
     } finally {
       setIsLoading(false);
     }
@@ -102,10 +98,10 @@ const SetUserInformationScreen: React.FC<
           <ScrollView contentContainerStyle={styles.scrollView}>
             <View style={styles.contentContainer}>
               <Text style={styles.title}>
-                {screenLabels.title || "Update Profile"}
+                {screenLabels.title}
               </Text>
               <Text style={styles.subtitle}>
-                {screenLabels.subtitle || "Update your personal information"}
+                {screenLabels.subtitle}
               </Text>
 
               <View style={styles.pictureContainer}>
@@ -160,7 +156,7 @@ const styles = StyleSheet.create({
   },
   pictureContainer: {
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: 32,
   },
 });
 
