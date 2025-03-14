@@ -136,7 +136,8 @@ const styles = StyleSheet.create({
   scrollView: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: 30,
+    paddingHorizontal: 24,
+    paddingVertical: 0,
   },
   contentContainer: {
     flex: 1,
@@ -153,13 +154,13 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: "#666",
-    marginBottom: 30,
+    marginBottom: 16,
     textAlign: "center",
     fontFamily: "PoppinsLight",
   },
   pictureContainer: {
     alignItems: "center",
-    marginBottom: 30,
+    marginBottom: 16,
   },
 });
 
