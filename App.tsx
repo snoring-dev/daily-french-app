@@ -45,7 +45,7 @@ export default function App() {
 
     if (response.data.id) {
       await saveUserData(response.data);
-      setInitialScreen("SetUserInformation");
+      setInitialScreen("Home");
     }
 
     console.log(response.data);

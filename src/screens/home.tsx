@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import PicturePicker from "../components/picture-picker";
+import LanguageLevelCarousel from "../components/language-level-carousel";
 
 const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to the Home Screen!</Text>
+      <LanguageLevelCarousel />
     </View>
   );
 };

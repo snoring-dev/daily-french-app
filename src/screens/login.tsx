@@ -37,7 +37,7 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
       await setJWT(jwt);
       const userData = await getUserData();
       await saveUserData(userData);
-      navigation.navigate("SetUserInformation");
+      navigation.navigate("Home");
     } catch (err: any) {
       console.log(err);
       showAlert({
