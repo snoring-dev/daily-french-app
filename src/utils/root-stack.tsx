@@ -10,6 +10,7 @@ export type RootStackParamList = {
     email: string;
   };
   ResetPasswordValidation: undefined;
+  SetUserInformation: undefined;
 };
 
 export type NavigationProps = NativeStackScreenProps<RootStackParamList>;
@@ -17,4 +18,9 @@ export type NavigationProps = NativeStackScreenProps<RootStackParamList>;
 export type EmailValidationScreenProps = NativeStackScreenProps<
   RootStackParamList,
   "EmailValidation"
+>;
+
+export type SetUserInformationScreenProps = NativeStackScreenProps<
+  RootStackParamList,
+  "SetUserInformation"
 >;

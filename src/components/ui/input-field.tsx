@@ -35,6 +35,8 @@ const InputField: React.FC<InputFieldProps> = ({
   onLeftIconPress,
   onRightIconPress,
 }) => {
+  const [isFocused, setIsFocused] = React.useState(false);
+
   const getKeyboardType = (): KeyboardTypeOptions => {
     switch (type) {
       case "email":
@@ -59,10 +61,28 @@ const InputField: React.FC<InputFieldProps> = ({
     return baseStyle;
   };
 
+  const getInputWrapperStyle = () => {
+    console.log('isFocused =>', isFocused);
+    return [
+      styles.inputWrapper,
+      isFocused ? styles.inputWrapperFocused : null
+    ];
+  };
+
+  const handleFocus = () => {
+    console.log('TextInput focused - handleFocus called');
+    setIsFocused(true);
+  };
+
+  const handleBlur = () => {
+    console.log('TextInput blurred - handleBlur called');
+    setIsFocused(false);
+  };
+
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>{label}</Text>
-      <View style={styles.inputWrapper}>
+      <View style={getInputWrapperStyle()}>
         {leftIcon && (
           <TouchableOpacity
             onPress={onLeftIconPress}
@@ -84,6 +104,8 @@ const InputField: React.FC<InputFieldProps> = ({
           secureTextEntry={type === "password"}
           autoCapitalize={type === "email" ? "none" : "sentences"}
           placeholder={placeholder}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         />
         {rightIcon && (
           <TouchableOpacity
@@ -121,6 +143,15 @@ const styles = StyleSheet.create({
     borderColor: "#CCC",
     borderRadius: 5,
     backgroundColor: '#F4F6F9'
+  },
+  inputWrapperFocused: {
+    borderColor: "#007BFF",
+    borderWidth: 1.5,
+    shadowColor: "#007BFF",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
   },
   input: {
     flex: 1,

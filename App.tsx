@@ -9,6 +9,7 @@ import HomeScreen from "./src/screens/home";
 import RegisterScreen from "./src/screens/register";
 import LoginScreen from "./src/screens/login";
 import EmailValidationScreen from "./src/screens/email-validation";
+import SetUserInformationScreen from "./src/screens/set-user-information";
 import { setOnboardingDone } from "./src/utils/storage";
 import { getUserData } from "./src/service/users.service";
 import { RootStackParamList } from "./src/utils/root-stack";
@@ -44,7 +45,7 @@ export default function App() {
 
     if (response.data.id) {
       await saveUserData(response.data);
-      setInitialScreen("Home");
+      setInitialScreen("SetUserInformation");
     }
 
     console.log(response.data);
@@ -111,6 +112,10 @@ export default function App() {
             component={EmailValidationScreen}
           />
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen 
+            name="SetUserInformation" 
+            component={SetUserInformationScreen} 
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider>

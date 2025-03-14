@@ -6,7 +6,6 @@ const HomeScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Welcome to the Home Screen!</Text>
-      <PicturePicker />
     </View>
   );
 };

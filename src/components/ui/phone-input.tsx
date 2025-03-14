@@ -18,6 +18,7 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
   hint,
 }) => {
   const [selectedCountry, setSelectedCountry] = useState<null | ICountry>(null);
+  const [isFocused, setIsFocused] = useState(false);
   
   const changeCountry = (country: ICountry) => {
     setSelectedCountry(country);
@@ -40,12 +41,24 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
         selectedCountry={selectedCountry}
         onChangeSelectedCountry={changeCountry}
         placeholder={placeholder}
+        onFocus={() => {
+          console.log('PhoneInput focused');
+          setIsFocused(true);
+        }}
+        onBlur={() => {
+          console.log('PhoneInput blurred');
+          setIsFocused(false);
+        }}
         phoneInputStyles={{
-          container: {
-            borderColor: "#CCC",
-            borderRadius: 5,
-            backgroundColor: "#F4F6F9",
-          },
+          container: [
+            {
+              borderColor: "#CCC",
+              borderRadius: 5,
+              backgroundColor: "#F4F6F9",
+              borderWidth: 1,
+            },
+            isFocused && styles.inputWrapperFocused
+          ],
           flagContainer: {
             backgroundColor: "#ffffff",
             borderTopLeftRadius: 5,
@@ -99,6 +112,15 @@ const styles = StyleSheet.create({
     borderColor: "#CCC",
     borderRadius: 5,
     backgroundColor: "#F4F6F9",
+  },
+  inputWrapperFocused: {
+    borderColor: "#007BFF",
+    borderWidth: 1.5,
+    shadowColor: "#007BFF",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 2,
   },
   hint: {
     fontSize: 12,
