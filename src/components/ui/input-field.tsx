@@ -36,6 +36,7 @@ const InputField: React.FC<InputFieldProps> = ({
   onRightIconPress,
 }) => {
   const [isFocused, setIsFocused] = React.useState(false);
+  const inputRef = React.useRef<TextInput>(null);
 
   const getKeyboardType = (): KeyboardTypeOptions => {
     switch (type) {
@@ -79,10 +80,20 @@ const InputField: React.FC<InputFieldProps> = ({
     setIsFocused(false);
   };
 
+  const focusInput = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>{label}</Text>
-      <View style={getInputWrapperStyle()}>
+      <TouchableOpacity 
+        activeOpacity={1} 
+        onPress={focusInput}
+        style={getInputWrapperStyle()}
+      >
         {leftIcon && (
           <TouchableOpacity
             onPress={onLeftIconPress}
@@ -97,6 +108,7 @@ const InputField: React.FC<InputFieldProps> = ({
           </TouchableOpacity>
         )}
         <TextInput
+          ref={inputRef}
           style={getInputStyle()}
           value={value}
           onChangeText={onChangeText}
@@ -120,7 +132,7 @@ const InputField: React.FC<InputFieldProps> = ({
             />
           </TouchableOpacity>
         )}
-      </View>
+      </TouchableOpacity>
       {hint && <Text style={styles.hint}>{hint}</Text>}
     </View>
   );
