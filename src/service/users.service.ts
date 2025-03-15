@@ -1,4 +1,5 @@
 import { FormData } from "../components/register-form";
+import { saveUserData } from "../utils/auth";
 import api from "../utils/request";
 
 export const saveUser = async (formData: FormData) => {
@@ -25,5 +26,15 @@ export const submitValidationCode = async (email: string, code: number) => {
 };
 
 export const getUserData = async () => {
-  return await api.get("/users/get-user-data");
+  const resp = await api.get("/users/get-user-data");
+  return resp.data;
+};
+
+export const refreshUserData = async () => {
+  try {
+    const userData = await getUserData();
+    await saveUserData(userData);
+  } catch (e) {
+    throw e;
+  }
 };

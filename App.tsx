@@ -13,11 +13,14 @@ import SetUserInformationScreen from "./src/screens/set-user-information";
 import { setOnboardingDone } from "./src/utils/storage";
 import { getUserData } from "./src/service/users.service";
 import { RootStackParamList } from "./src/utils/root-stack";
-import { saveUserData } from "./src/utils/auth";
+import { removeJWT, removeUserData, saveUserData } from "./src/utils/auth";
+import DefineLanguageLevelScreen from "./src/screens/define-language-level";
 
 const Stack = createStackNavigator();
 
 type Screens = keyof RootStackParamList;
+
+const LOGIN_NEXT_SCREEN = "Home"
 
 SplashScreen.preventAutoHideAsync();
 
@@ -41,17 +44,20 @@ export default function App() {
   };
 
   const loadUserData = async () => {
-    const response = await getUserData();
+    const responseData = await getUserData();
 
-    if (response.data.id) {
-      await saveUserData(response.data);
-      setInitialScreen("SetUserInformation");
+    if (responseData.id) {
+      await saveUserData(responseData);
+      setInitialScreen(LOGIN_NEXT_SCREEN);
     }
-
-    console.log(response.data);
   };
 
   useEffect(() => {
+    async function cleanUp() {
+      await removeUserData();
+      await removeJWT();
+    }
+
     async function prepare() {
       try {
         await loadFonts();
@@ -63,6 +69,7 @@ export default function App() {
       }
     }
 
+    // cleanUp();
     prepare();
   }, []);
 
@@ -106,15 +113,19 @@ export default function App() {
             )}
           </Stack.Screen>
           <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen
+            name="DefineLanguageLevel"
+            component={DefineLanguageLevelScreen}
+          />
           <Stack.Screen name="Register" component={RegisterScreen} />
           <Stack.Screen
             name="EmailValidation"
             component={EmailValidationScreen}
           />
           <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen 
-            name="SetUserInformation" 
-            component={SetUserInformationScreen} 
+          <Stack.Screen
+            name="SetUserInformation"
+            component={SetUserInformationScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>
