@@ -25,6 +25,7 @@ interface ButtonProps {
   gradientStart?: { x: number; y: number };
   gradientEnd?: { x: number; y: number };
 }
+const defaultGradientColor = ["#4c669f", "#3b5998", "#192f6a"] as const;
 
 const Button: React.FC<ButtonProps> = ({
   title,
@@ -37,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
   loading = false,
   style,
   textStyle,
-  gradientColors = ["#4c669f", "#3b5998", "#192f6a"],
+  gradientColors = defaultGradientColor,
   gradientStart = { x: 0, y: 0 },
   gradientEnd = { x: 1, y: 0 },
 }) => {

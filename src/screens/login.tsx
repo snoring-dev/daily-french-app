@@ -20,6 +20,8 @@ import { getUserData } from "../service/users.service";
 
 interface LoginScreenProps {}
 
+const LOGIN_NEXT_SCREEN = "Home";
+
 const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
   navigation,
 }) => {
@@ -37,7 +39,7 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
       await setJWT(jwt);
       const userData = await getUserData();
       await saveUserData(userData);
-      navigation.navigate("Home");
+      navigation.navigate(LOGIN_NEXT_SCREEN);
     } catch (err: any) {
       console.log(err);
       showAlert({

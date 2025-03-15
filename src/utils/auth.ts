@@ -49,4 +49,10 @@ export async function getLocalUserData(): Promise<any | null> {
   }
 }
 
-
+export async function removeUserData(): Promise<void> {
+  try {
+    await SecureStore.deleteItemAsync(USER_DATA_KEY);
+  } catch (error) {
+    console.error("Error removing user data:", error);
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   View,
   Image,
@@ -18,19 +18,29 @@ const CARD_WIDTH = SCREEN_WIDTH * 0.8;
 const CARD_HEIGHT = CARD_WIDTH * (16/9);
 const SPACING = 10;
 
-const images = [
-  require("../../assets/images/A1.jpg"),
-  require("../../assets/images/A2.jpg"),
-  require("../../assets/images/B1.jpg"),
-  require("../../assets/images/B2.jpg"),
-  require("../../assets/images/C1.jpg"),
-  require("../../assets/images/C2.jpg"),
+const languageLevels = [
+  { value: "A1", imagePath: require("../../assets/images/A1.jpg") },
+  { value: "A2", imagePath: require("../../assets/images/A2.jpg") },
+  { value: "B1", imagePath: require("../../assets/images/B1.jpg") },
+  { value: "B2", imagePath: require("../../assets/images/B2.jpg") },
+  { value: "C1", imagePath: require("../../assets/images/C1.jpg") },
+  { value: "C2", imagePath: require("../../assets/images/C2.jpg") },
 ];
 
-const LanguageLevelCarousel = () => {
+interface LanguageLevelCarouselProps {
+  onChange?: (value: string) => void;
+}
+
+const LanguageLevelCarousel = ({ onChange }: LanguageLevelCarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const scrollX = useSharedValue(0);
   const flatListRef = useRef<Animated.ScrollView>(null);
+
+  useEffect(() => {
+    if (onChange) {
+      onChange(languageLevels[activeIndex].value);
+    }
+  }, [activeIndex, onChange]);
 
   const onScrollHandler = (event: any) => {
     scrollX.value = event.nativeEvent.contentOffset.x;
@@ -49,7 +59,7 @@ const LanguageLevelCarousel = () => {
     }
   };
 
-  const renderItem = ({ item, index }: { item: any; index: number }) => {
+  const renderItem = ({ item, index }: { item: typeof languageLevels[0]; index: number }) => {
     const animatedStyle = useAnimatedStyle(() => {
       const inputRange = [
         (index - 1) * (CARD_WIDTH + SPACING),
@@ -86,7 +96,7 @@ const LanguageLevelCarousel = () => {
 
     return (
       <Animated.View style={[styles.cardContainer, animatedStyle]}>
-        <Image source={item} style={styles.image} resizeMode="cover" />
+        <Image source={item.imagePath} style={styles.image} resizeMode="cover" />
       </Animated.View>
     );
   };
@@ -105,15 +115,15 @@ const LanguageLevelCarousel = () => {
           onScroll={onScrollHandler}
           scrollEventThrottle={16}
         >
-          {images.map((image, index) => (
+          {languageLevels.map((level, index) => (
             <View key={index} style={{ width: CARD_WIDTH, marginRight: SPACING }}>
-              {renderItem({ item: image, index })}
+              {renderItem({ item: level, index })}
             </View>
           ))}
         </Animated.ScrollView>
 
         <View style={styles.pagination}>
-          {images.map((_, index) => (
+          {languageLevels.map((_, index) => (
             <TouchableOpacity
               key={index}
               style={[

@@ -60,6 +60,11 @@ type UserInformationResources = {
   phonePlaceholder: string;
 };
 
+type LanguageLevelResources = {
+  title: string;
+  saveButton: string;
+};
+
 type GlobalResources = {
   errorTitle: string;
 };
@@ -132,6 +137,10 @@ export const TextResources = {
     lastNamePlaceholder: "Entrez votre nom",
     phonePlaceholder: "Entrez votre numéro de téléphone"
   } as UserInformationResources,
+  languageLevel: {
+    title: "Séléctionner votre niveau en Francais",
+    saveButton: "Enregistrer mon niveau",
+  } as LanguageLevelResources,
 };
 
 export type ResourceKey = keyof typeof TextResources;

@@ -11,6 +11,7 @@ export type RootStackParamList = {
   };
   ResetPasswordValidation: undefined;
   SetUserInformation: undefined;
+  DefineLanguageLevel: undefined;
 };
 
 export type NavigationProps = NativeStackScreenProps<RootStackParamList>;
