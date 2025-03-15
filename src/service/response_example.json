@@ -1,0 +1,120 @@
+[
+  {
+    "id": 81218,
+    "userId": 17,
+    "word": "Muselait",
+    "definitions": ["Du verbe museler."],
+    "completions": {
+      "mot": "Muselait",
+      "type": "verbe",
+      "explication": "Le verbe 'muselait' est la conjugaison du verbe 'museler' à l'imparfait de l'indicatif, à la troisième personne du singulier. 'Museler' signifie empêcher quelqu'un de s'exprimer librement, souvent en utilisant des moyens de contrainte ou de censure. Ce verbe peut également désigner l'action de mettre une muselière à un animal pour l'empêcher de mordre ou de faire du bruit.",
+      "niveau_max": "B2",
+      "phrases": [
+        {
+          "texte": "Le gouvernement muselait la presse pour éviter les critiques.",
+          "niveau": "B1",
+          "contexte": "Contexte politique où la liberté d'expression est limitée."
+        },
+        {
+          "texte": "Le dresseur muselait le chien avant de l'emmener dans le parc.",
+          "niveau": "A2",
+          "contexte": "Contexte quotidien impliquant un animal domestique."
+        },
+        {
+          "texte": "Elle se sentait muselée par les règles strictes de son école.",
+          "niveau": "B2",
+          "contexte": "Contexte scolaire où une personne ressent une restriction de sa liberté d'expression."
+        }
+      ],
+      "image": {
+        "prompt": "Une image montrant un chien avec une muselière dans un parc, entouré de personnes qui discutent librement, contrastant avec l'animal qui ne peut pas aboyer.",
+        "elements_cles": ["chien", "muselière", "parc", "personnes discutant"],
+        "objectif_pedagogique": "Illustrer le concept de 'museler' en montrant à la fois l'aspect littéral (muselière sur un chien) et figuré (restriction de la liberté d'expression)."
+      }
+    }
+  },
+  {
+    "id": 483933,
+    "userId": 17,
+    "word": "Réembarqueront",
+    "definitions": [
+      "Troisième personne du pluriel du futur du verbe réembarquer."
+    ],
+    "completions": {
+      "mot": "Réembarqueront",
+      "type": "verbe",
+      "explication": "Le verbe 'réembarqueront' est la conjugaison du verbe 'réembarquer' à la troisième personne du pluriel du futur simple. Il signifie remonter à bord d'un navire, d'un avion ou d'un autre moyen de transport après en être descendu. Ce verbe est souvent utilisé dans des contextes de voyage ou de transport.",
+      "niveau_max": "B2",
+      "phrases": [
+        {
+          "texte": "Les passagers réembarqueront après la courte escale.",
+          "niveau": "A1",
+          "contexte": "Contexte de voyage en avion ou en bateau."
+        },
+        {
+          "texte": "Ils réembarqueront sur le ferry dès que les réparations seront terminées.",
+          "niveau": "A2",
+          "contexte": "Contexte de voyage maritime avec des imprévus."
+        },
+        {
+          "texte": "Les touristes réembarqueront sur le bateau de croisière après leur visite de l'île.",
+          "niveau": "B1",
+          "contexte": "Contexte de voyage touristique en croisière."
+        }
+      ],
+      "image": {
+        "prompt": "Une illustration montrant des passagers remontant à bord d'un grand navire après une escale. Le navire est ancré près d'une île tropicale avec des palmiers en arrière-plan. Les passagers sont représentés avec des valises et des sacs, certains discutant entre eux. Le ciel est clair avec quelques nuages blancs.",
+        "elements_cles": [
+          "navire",
+          "passagers",
+          "île tropicale",
+          "valises",
+          "ciel clair"
+        ],
+        "objectif_pedagogique": "L'image vise à illustrer le concept de 'réembarquer' dans un contexte de voyage maritime, en montrant clairement l'action de remonter à bord après une escale. Cela aide les apprenants à visualiser et à comprendre l'utilisation du verbe dans un contexte réel."
+      }
+    }
+  },
+  {
+    "id": 209589,
+    "userId": 17,
+    "word": "Embourgeoisât",
+    "definitions": [
+      "Troisième personne du singulier de l'imparfait du subjonctif du verbe embourgeoiser."
+    ],
+    "completions": {
+      "mot": "Embourgeoisât",
+      "type": "verbe",
+      "explication": "Le verbe 'embourgeoisât' est la forme conjuguée du verbe 'embourgeoiser' à l'imparfait du subjonctif. Il signifie rendre quelqu'un ou quelque chose plus bourgeois, c'est-à-dire plus conforme aux valeurs, aux habitudes ou au mode de vie de la bourgeoisie. Ce terme est souvent utilisé pour décrire une transformation sociale ou culturelle où une personne ou un groupe adopte des comportements ou des attitudes associés à la classe moyenne ou supérieure.",
+      "niveau_max": "B2",
+      "phrases": [
+        {
+          "texte": "Il craignait que cette nouvelle richesse ne l'embourgeoisât et ne le détournât de ses origines modestes.",
+          "niveau": "B1",
+          "contexte": "Discussion sur les changements de comportement liés à l'ascension sociale."
+        },
+        {
+          "texte": "Si cette politique culturelle s'embourgeoisât, elle perdrait son attrait pour les jeunes artistes.",
+          "niveau": "B2",
+          "contexte": "Débat sur les politiques culturelles et leur accessibilité."
+        },
+        {
+          "texte": "Elle souhaitait que son quartier ne s'embourgeoisât pas trop, pour préserver son caractère populaire.",
+          "niveau": "B2",
+          "contexte": "Conversation sur l'évolution des quartiers urbains et leur gentrification."
+        }
+      ],
+      "image": {
+        "prompt": "Illustration d'un quartier en transition, montrant des bâtiments anciens rénovés avec des cafés modernes et des personnes habillées de manière élégante, contrastant avec des éléments plus modestes comme un marché local. L'image doit montrer une rue avec des arbres, des terrasses de café et des personnes de différentes classes sociales.",
+        "elements_cles": [
+          "bâtiments rénovés",
+          "cafés modernes",
+          "marché local",
+          "personnes élégantes",
+          "contraste social"
+        ],
+        "objectif_pedagogique": "Visualiser le concept d'embourgeoisement à travers l'évolution d'un quartier, en mettant en évidence les changements sociaux et culturels."
+      }
+    }
+  }
+]
