@@ -19,6 +19,7 @@ import { openDatabaseSync, SQLiteProvider } from "expo-sqlite";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "./drizzle/migrations";
+import { RootNavigator } from "./src/navigation/RootNavigator";
 
 export const DATABASE_NAME = "daily_french";
 
@@ -113,36 +114,10 @@ export default function App() {
         options={{ enableChangeListener: true }}
       >
         <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName={initialScreen}
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="Onboarding">
-              {(props) => (
-                <OnboardingCarousel
-                  {...props}
-                  onComplete={handleOnboardingComplete}
-                />
-              )}
-            </Stack.Screen>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen
-              name="DefineLanguageLevel"
-              component={DefineLanguageLevelScreen}
-            />
-            <Stack.Screen name="Register" component={RegisterScreen} />
-            <Stack.Screen
-              name="EmailValidation"
-              component={EmailValidationScreen}
-            />
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen
-              name="SetUserInformation"
-              component={SetUserInformationScreen}
-            />
-          </Stack.Navigator>
+          <RootNavigator 
+            initialScreen={initialScreen}
+            onOnboardingComplete={handleOnboardingComplete}
+          />
         </NavigationContainer>
       </SQLiteProvider>
     </SafeAreaProvider>

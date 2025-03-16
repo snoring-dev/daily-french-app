@@ -1,4 +1,4 @@
-import { NativeStackScreenProps } from "react-native-screens/lib/typescript/native-stack/types";
+import { StackScreenProps } from "@react-navigation/stack";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -14,14 +14,14 @@ export type RootStackParamList = {
   DefineLanguageLevel: undefined;
 };
 
-export type NavigationProps = NativeStackScreenProps<RootStackParamList>;
+export type NavigationProps = StackScreenProps<RootStackParamList>;
 
-export type EmailValidationScreenProps = NativeStackScreenProps<
+export type EmailValidationScreenProps = StackScreenProps<
   RootStackParamList,
   "EmailValidation"
 >;
 
-export type SetUserInformationScreenProps = NativeStackScreenProps<
+export type SetUserInformationScreenProps = StackScreenProps<
   RootStackParamList,
   "SetUserInformation"
 >;
