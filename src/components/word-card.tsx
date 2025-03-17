@@ -4,6 +4,7 @@ import { Word } from '../service/word.service';
 import { useTheme } from '../hooks/use-theme';
 import { Theme } from '../theme';
 import { LinearGradient } from 'expo-linear-gradient';
+import { getResources } from '../utils/text-resources';
 
 interface WordCardProps {
   word: Word;
@@ -115,6 +116,7 @@ const getStyles = (theme: Theme) => StyleSheet.create({
 export const WordCard = ({ word }: WordCardProps) => {
   const theme = useTheme();
   const styles = getStyles(theme);
+  const wordCardTexts = getResources('wordCard');
   const [isTypeLong, setIsTypeLong] = useState(false);
 
   useEffect(() => {
@@ -172,7 +174,7 @@ export const WordCard = ({ word }: WordCardProps) => {
         {word.completions.phrases &&
           word.completions.phrases.length > 0 && (
             <View style={styles.phrasesContainer}>
-              <Text style={styles.phrasesTitle}>Example Phrases</Text>
+              <Text style={styles.phrasesTitle}>{wordCardTexts.examplePhrases}</Text>
               {word.completions.phrases.map((phrase, index) => (
                 <TouchableOpacity 
                   key={index} 

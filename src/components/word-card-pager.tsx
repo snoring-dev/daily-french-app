@@ -34,7 +34,6 @@ const getStyles = (theme: Theme) => StyleSheet.create({
   scrollViewContainer: {
     paddingHorizontal: 16,
     paddingTop: 16,
-    // Add bottom padding to ensure content isn't hidden behind the footer
     paddingBottom: 80,
   },
   footer: {

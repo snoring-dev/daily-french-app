@@ -69,6 +69,10 @@ type GlobalResources = {
   errorTitle: string;
 };
 
+type WordCardResources = {
+  examplePhrases: string;
+};
+
 export const TextResources = {
   global: {
     errorTitle: "Erreur",
@@ -135,12 +139,15 @@ export const TextResources = {
     updateError: "Échec de la mise à jour du profil. Veuillez réessayer.",
     firstNamePlaceholder: "Entrez votre prénom",
     lastNamePlaceholder: "Entrez votre nom",
-    phonePlaceholder: "Entrez votre numéro de téléphone"
+    phonePlaceholder: "Entrez votre numéro de téléphone",
   } as UserInformationResources,
   languageLevel: {
     title: "Séléctionner votre niveau en Francais",
     saveButton: "Enregistrer mon niveau",
   } as LanguageLevelResources,
+  wordCard: {
+    examplePhrases: "Exemples de phrases",
+  } as WordCardResources,
 };
 
 export type ResourceKey = keyof typeof TextResources;
