@@ -1,20 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import OnboardingCarousel from "./src/screens/onboarding";
-import HomeScreen from "./src/screens/home";
-import RegisterScreen from "./src/screens/register";
-import LoginScreen from "./src/screens/login";
-import EmailValidationScreen from "./src/screens/email-validation";
-import SetUserInformationScreen from "./src/screens/set-user-information";
 import { setOnboardingDone } from "./src/utils/storage";
 import { getUserData } from "./src/service/users.service";
 import { RootStackParamList } from "./src/utils/root-stack";
 import { removeJWT, removeUserData, saveUserData } from "./src/utils/auth";
-import DefineLanguageLevelScreen from "./src/screens/define-language-level";
 import { openDatabaseSync, SQLiteProvider } from "expo-sqlite";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
@@ -23,8 +15,6 @@ import { RootNavigator } from "./src/navigation/RootNavigator";
 import { ThemeProvider } from "./src/theme/provider";
 
 export const DATABASE_NAME = "daily_french";
-
-const Stack = createStackNavigator();
 
 type Screens = keyof RootStackParamList;
 

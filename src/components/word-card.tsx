@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Word } from '../service/word.service';
 import { useTheme } from '../hooks/use-theme';
 import { Theme } from '../theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { getResources } from '../utils/text-resources';
+import { useWordImage } from '../hooks/use-word-image';
 
 interface WordCardProps {
   word: Word;
@@ -111,6 +112,28 @@ const getStyles = (theme: Theme) => StyleSheet.create({
     fontFamily: theme.font.primary.regular,
     lineHeight: theme.fontSize.m * 1.4,
   },
+  imageContainer: {
+    width: '100%',
+    aspectRatio: 1,
+    borderRadius: theme.borderRadius.m,
+    overflow: 'hidden',
+    backgroundColor: theme.color.softGray,
+    ...theme.shadow.small,
+  },
+  wordImage: {
+    width: '100%',
+    height: '100%',
+  },
+  imageLoadingContainer: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageLoadingText: {
+    color: theme.color.textSecondary,
+    fontFamily: theme.font.primary.regular,
+  },
 });
 
 export const WordCard = ({ word }: WordCardProps) => {
@@ -118,9 +141,10 @@ export const WordCard = ({ word }: WordCardProps) => {
   const styles = getStyles(theme);
   const wordCardTexts = getResources('wordCard');
   const [isTypeLong, setIsTypeLong] = useState(false);
+  const { imageUrl, isLoading, error } = useWordImage(word.originalId);
 
   useEffect(() => {
-    if (word.completions.type && word.completions.type.length > 10) {
+    if (word.completions.type && word.completions.type.length > 20) {
       setIsTypeLong(true);
     } else {
       setIsTypeLong(false);
@@ -168,6 +192,24 @@ export const WordCard = ({ word }: WordCardProps) => {
             <Text style={styles.definitionText}>
               {word.completions.explication}
             </Text>
+          </View>
+        )}
+
+        {imageUrl && (
+          <View style={styles.imageContainer}>
+            <Image 
+              source={{ uri: imageUrl }} 
+              style={styles.wordImage}
+              resizeMode="cover"
+            />
+          </View>
+        )}
+        
+        {isLoading && (
+          <View style={styles.imageContainer}>
+            <View style={styles.imageLoadingContainer}>
+              <Text style={styles.imageLoadingText}>Loading image...</Text>
+            </View>
           </View>
         )}
 

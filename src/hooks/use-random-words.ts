@@ -25,7 +25,7 @@ export const useRandomWords = () => {
         } else {
           // If no words from today, fetch new ones from API
           const randomWords = await getRandomWords();
-          setWords(randomWords);
+          setWords(randomWords.map((w) => ({ ...w, originalId: w.id })));
           setError(null);
           // Save the new words to the database
           await wordRepository.saveWords(randomWords);

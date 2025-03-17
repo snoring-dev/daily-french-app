@@ -58,6 +58,7 @@ export class WordRepository {
       } else {
         acc.push({
           id: curr.words.id,
+          originalId: curr.words.originalId,
           userId: 0, // Default value since we don't store this
           word: curr.words.word,
           definitions: [], // We don't store definitions separately
@@ -91,6 +92,7 @@ export class WordRepository {
       const [insertedWord] = await this.db
         .insert(words)
         .values({
+          originalId: wordData.id,
           word: wordData.word,
           type: wordData.completions.type,
           explication: wordData.completions.explication,
