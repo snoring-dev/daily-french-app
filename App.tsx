@@ -20,6 +20,7 @@ import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
 import migrations from "./drizzle/migrations";
 import { RootNavigator } from "./src/navigation/RootNavigator";
+import { ThemeProvider } from "./src/theme/provider";
 
 export const DATABASE_NAME = "daily_french";
 
@@ -41,6 +42,7 @@ export default function App() {
 
   const loadFonts = async () => {
     await Font.loadAsync({
+      Rochester: require("./assets/fonts/rochester/RochesterRegular.ttf"),
       Lora: require("./assets/fonts/lora/LoraRegular.ttf"),
       LoraMedium: require("./assets/fonts/lora/LoraMedium.ttf"),
       LoraSemiBold: require("./assets/fonts/lora/LoraSemiBold.ttf"),
@@ -113,12 +115,14 @@ export default function App() {
         databaseName={DATABASE_NAME}
         options={{ enableChangeListener: true }}
       >
-        <NavigationContainer>
-          <RootNavigator 
-            initialScreen={initialScreen}
-            onOnboardingComplete={handleOnboardingComplete}
-          />
-        </NavigationContainer>
+        <ThemeProvider>
+          <NavigationContainer>
+            <RootNavigator
+              initialScreen={initialScreen}
+              onOnboardingComplete={handleOnboardingComplete}
+            />
+          </NavigationContainer>
+        </ThemeProvider>
       </SQLiteProvider>
     </SafeAreaProvider>
   );
