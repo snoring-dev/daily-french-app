@@ -1,48 +1,34 @@
 import React from "react";
 import {
   View,
-  Text,
   StyleSheet,
-  ActivityIndicator,
-  ScrollView,
   SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
+  StatusBar,
 } from "react-native";
 import { useRandomWords } from "../hooks/use-random-words";
-import { WordCard } from '../components/WordCard';
+import { useTheme } from '../hooks/use-theme';
+import { WordCardPager } from '../components/word-card-pager';
 
 const HomeScreen = () => {
   const { words, loading, error } = useRandomWords();
+  const theme = useTheme();
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.color.white,
+    },
+    content: {
+      flex: 1,
+    },
+  });
 
   return (
     <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.keyboardAvoidingView}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          {loading ? (
-            <ActivityIndicator size="large" color="#0000ff" />
-          ) : error ? (
-            <Text style={styles.errorText}>{error}</Text>
-          ) : (
-            <ScrollView
-              style={styles.scrollView}
-              contentContainerStyle={styles.scrollViewContent}
-              showsVerticalScrollIndicator={true}
-            >
-              <Text style={styles.text}>Welcome to the Home Screen!</Text>
-              <Text style={styles.subtitle}>Random Words:</Text>
-              {words.map((word) => (
-                <WordCard key={word.id} word={word} />
-              ))}
-            </ScrollView>
-          )}
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+      <StatusBar barStyle="light-content" />
+      <View style={styles.content}>
+        <WordCardPager words={words} />
+      </View>
     </SafeAreaView>
   );
 };
