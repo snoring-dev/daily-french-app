@@ -15,21 +15,34 @@ import { getUserData } from "./src/service/users.service";
 import { RootStackParamList } from "./src/utils/root-stack";
 import { removeJWT, removeUserData, saveUserData } from "./src/utils/auth";
 import DefineLanguageLevelScreen from "./src/screens/define-language-level";
+import { openDatabaseSync, SQLiteProvider } from "expo-sqlite";
+import { drizzle } from "drizzle-orm/expo-sqlite";
+import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
+import migrations from "./drizzle/migrations";
+import { RootNavigator } from "./src/navigation/RootNavigator";
+import { ThemeProvider } from "./src/theme/provider";
+
+export const DATABASE_NAME = "daily_french";
 
 const Stack = createStackNavigator();
 
 type Screens = keyof RootStackParamList;
 
-const LOGIN_NEXT_SCREEN = "Home"
+const LOGIN_NEXT_SCREEN = "Home";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const expoDb = openDatabaseSync(DATABASE_NAME);
+  const db = drizzle(expoDb);
+  const { success, error } = useMigrations(db, migrations);
+
   const [appIsReady, setAppIsReady] = useState(false);
   const [initialScreen, setInitialScreen] = useState<Screens>("Login");
 
   const loadFonts = async () => {
     await Font.loadAsync({
+      Rochester: require("./assets/fonts/rochester/RochesterRegular.ttf"),
       Lora: require("./assets/fonts/lora/LoraRegular.ttf"),
       LoraMedium: require("./assets/fonts/lora/LoraMedium.ttf"),
       LoraSemiBold: require("./assets/fonts/lora/LoraSemiBold.ttf"),
@@ -94,41 +107,23 @@ export default function App() {
   };
 
   console.log("initialScreen =>", initialScreen);
+  console.log("DB =>", { success, error });
 
   return (
     <SafeAreaProvider onLayout={onLayoutRootView}>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName={initialScreen}
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="Onboarding">
-            {(props) => (
-              <OnboardingCarousel
-                {...props}
-                onComplete={handleOnboardingComplete}
-              />
-            )}
-          </Stack.Screen>
-          <Stack.Screen name="Home" component={HomeScreen} />
-          <Stack.Screen
-            name="DefineLanguageLevel"
-            component={DefineLanguageLevelScreen}
-          />
-          <Stack.Screen name="Register" component={RegisterScreen} />
-          <Stack.Screen
-            name="EmailValidation"
-            component={EmailValidationScreen}
-          />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen
-            name="SetUserInformation"
-            component={SetUserInformationScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SQLiteProvider
+        databaseName={DATABASE_NAME}
+        options={{ enableChangeListener: true }}
+      >
+        <ThemeProvider>
+          <NavigationContainer>
+            <RootNavigator
+              initialScreen={initialScreen}
+              onOnboardingComplete={handleOnboardingComplete}
+            />
+          </NavigationContainer>
+        </ThemeProvider>
+      </SQLiteProvider>
     </SafeAreaProvider>
   );
 }

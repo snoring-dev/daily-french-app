@@ -13,7 +13,6 @@ import {
 import { NavigationProps } from "../utils/root-stack";
 import { getResources } from "../utils/text-resources";
 import RegisterForm from "../components/register-form";
-import api from "../utils/request";
 import { saveUser } from "../service/users.service";
 
 interface RegisterScreenProps {}
