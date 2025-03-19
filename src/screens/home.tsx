@@ -1,13 +1,9 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-} from "react-native";
+import { View, StyleSheet, SafeAreaView, StatusBar } from "react-native";
 import { useRandomWords } from "../hooks/use-random-words";
-import { useTheme } from '../hooks/use-theme';
-import { WordCardPager } from '../components/word-card-pager';
+import { useTheme } from "../hooks/use-theme";
+import { WordCardPager } from "../components/word-card-pager";
+import LoadingView from "../components/ui/loading-view";
 
 const HomeScreen = () => {
   const { words, loading, error } = useRandomWords();
@@ -23,14 +19,22 @@ const HomeScreen = () => {
     },
   });
 
-  return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={styles.content}>
-        <WordCardPager words={words} />
-      </View>
-    </SafeAreaView>
-  );
+  const renderView = () => {
+    if (loading) {
+      return <LoadingView />;
+    }
+
+    return (
+      <>
+        <StatusBar barStyle="light-content" />
+        <View style={styles.content}>
+          <WordCardPager words={words} />
+        </View>
+      </>
+    );
+  };
+
+  return <SafeAreaView style={styles.container}>{renderView()}</SafeAreaView>;
 };
 
 const styles = StyleSheet.create({

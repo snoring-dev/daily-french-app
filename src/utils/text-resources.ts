@@ -73,10 +73,42 @@ type WordCardResources = {
   examplePhrases: string;
 };
 
+type LoadingResources = {
+  message: string;
+};
+
+export type PhoneModalResources = {
+  France: string;
+  US: string;
+  UK: string;
+  Germany: string;
+  Spain: string;
+  Italy: string;
+  Canada: string;
+  Australia: string;
+  Japan: string;
+  China: string;
+};
+
 export const TextResources = {
   global: {
     errorTitle: "Erreur",
   } as GlobalResources,
+  loading: {
+    message: "Chargement en cours...",
+  } as LoadingResources,
+  phoneModal: {
+    France: "France",
+    US: "United States",
+    UK: "United Kingdom",
+    Germany: "Germany",
+    Spain: "Spain",
+    Italy: "Italy",
+    Canada: "Canada",
+    Australia: "Australia",
+    Japan: "Japan",
+    China: "China",
+  } as PhoneModalResources,
   register: {
     title: "Créez Votre Compte",
     subtitle: "Rejoignez notre communauté en quelques étapes simples",

@@ -17,6 +17,7 @@ import { showAlert } from "../utils/alert";
 import { doLogin } from "../service/auth.service";
 import { saveUserData, setJWT } from "../utils/auth";
 import { getUserData } from "../service/users.service";
+import { navigateBasedOnProfileCompletion } from "../service/profile.service";
 
 interface LoginScreenProps {}
 
@@ -29,17 +30,13 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
   const screenLabels = getResources("login");
 
   const handleLogin = async (formData: { email: string; password: string }) => {
-    console.log("Login with:", {
-      email: formData.email,
-      password: formData.password,
-    });
     try {
       setIsLoading(true);
       const jwt = await doLogin(formData);
-      await setJWT(jwt);
-      const userData = await getUserData();
-      await saveUserData(userData);
-      navigation.navigate(LOGIN_NEXT_SCREEN);
+      if (jwt) {
+        await setJWT(jwt);
+        await navigateBasedOnProfileCompletion(navigation);
+      }
     } catch (err: any) {
       console.log(err);
       showAlert({

@@ -23,7 +23,32 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.error("API Error:", error.message);
+    if (error.response) {
+      // The request was made and the server responded with a status code
+      // that falls out of the range of 2xx
+      console.error("API Error:", {
+        status: error.response.status,
+        statusText: error.response.statusText,
+        url: error.config?.url,
+        method: error.config?.method,
+        data: error.response.data,
+        headers: error.config?.headers,
+      });
+    } else if (error.request) {
+      // The request was made but no response was received
+      console.error("API Request Error:", {
+        message: error.message,
+        url: error.config?.url,
+        method: error.config?.method,
+      });
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      console.error("API Setup Error:", {
+        message: error.message,
+        config: error.config,
+      });
+    }
+
     return Promise.reject(error);
   }
 );

@@ -71,6 +71,16 @@ const SetUserInformationScreen: React.FC<
       // Format phone number to include calling code
       const formattedPhoneNumber = `+${formData.phoneNumber.callingCode}${formData.phoneNumber.number}`;
 
+      console.log('Attempting to update user profile:', {
+        userId: id,
+        endpoint: `/users/${id}`,
+        dataToUpdate: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          phoneNumber: formattedPhoneNumber,
+        }
+      });
+
       const response = await api.patch(`/users/${id}`, {
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -78,10 +88,10 @@ const SetUserInformationScreen: React.FC<
       });
 
       if (response.status === 200) {
-        navigation.push("Home");
+        navigation.navigate("DefineLanguageLevel");
       }
     } catch (error) {
-      console.error("Error updating profile:", error);
+      console.error("Error updating user information:", error);
       alert(screenLabels.updateError);
     } finally {
       setIsLoading(false);

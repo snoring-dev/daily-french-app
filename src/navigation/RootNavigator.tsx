@@ -26,22 +26,53 @@ export function RootNavigator({
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Onboarding">
-        {(props) => (
-          <OnboardingCarousel {...props} onComplete={onOnboardingComplete} />
-        )}
+      <Stack.Screen 
+        name="Onboarding" 
+        options={{ headerShown: false }}>
+        {(props) => <OnboardingCarousel {...props} onComplete={onOnboardingComplete} />}
       </Stack.Screen>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen
-        name="DefineLanguageLevel"
-        component={DefineLanguageLevelScreen}
+      <Stack.Screen 
+        name="Login" 
+        component={LoginScreen} 
+        options={{ headerShown: false }} 
       />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="EmailValidation" component={EmailValidationScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen
-        name="SetUserInformation"
-        component={SetUserInformationScreen}
+      <Stack.Screen 
+        name="Register" 
+        component={RegisterScreen} 
+        options={{ headerShown: false }} 
+      />
+      <Stack.Screen 
+        name="EmailValidation" 
+        component={EmailValidationScreen} 
+        options={{ 
+          headerShown: true,
+          headerTitle: "Verify Email",
+          headerBackTitle: "Back"
+        }} 
+      />
+      <Stack.Screen 
+        name="SetUserInformation" 
+        component={SetUserInformationScreen} 
+        options={{ 
+          headerShown: false,
+          gestureEnabled: false 
+        }} 
+      />
+      <Stack.Screen 
+        name="DefineLanguageLevel" 
+        component={DefineLanguageLevelScreen} 
+        options={{ 
+          headerShown: false,
+          gestureEnabled: false 
+        }} 
+      />
+      <Stack.Screen 
+        name="Home" 
+        component={HomeScreen} 
+        options={{ 
+          headerShown: false,
+          gestureEnabled: false 
+        }} 
       />
     </Stack.Navigator>
   );
