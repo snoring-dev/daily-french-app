@@ -90,6 +90,14 @@ export type PhoneModalResources = {
   China: string;
 };
 
+type PreferencesResources = {
+  personalInformation: string;
+  languageLevel: string;
+  applicationSettings: string;
+  logout: string;
+  loadingError: string;
+};
+
 export const TextResources = {
   global: {
     errorTitle: "Erreur",
@@ -180,6 +188,13 @@ export const TextResources = {
   wordCard: {
     examplePhrases: "Exemples de phrases",
   } as WordCardResources,
+  preferences: {
+    personalInformation: "Informations personnelles",
+    languageLevel: "Niveau de langue", 
+    applicationSettings: "Paramètres de l'application",
+    logout: "Déconnexion",
+    loadingError: "Échec du chargement des données de profil"
+  } as PreferencesResources,
 };
 
 export type ResourceKey = keyof typeof TextResources;

@@ -5,18 +5,8 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "../screens/home";
 import { COLORS } from "../theme/colors";
 import { FONTS } from "../theme/typography";
-
-const HistoryScreen = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <Text>History Screen - Coming Soon</Text>
-  </View>
-);
-
-const PreferencesScreen = () => (
-  <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-    <Text>Preferences Screen - Coming Soon</Text>
-  </View>
-);
+import { HistoryScreen } from "../screens/history";
+import { PreferencesScreen } from "../screens/preferences";
 
 const Tab = createBottomTabNavigator();
 
