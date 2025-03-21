@@ -13,9 +13,10 @@ import { Theme } from "../theme";
 import { useTheme } from "../hooks/use-theme";
 import { getUserData } from "../service/users.service";
 import LoadingView from "../components/ui/loading-view";
-import { LinearGradient } from "expo-linear-gradient";
 import { MaterialIcons } from "@expo/vector-icons";
 import { getResources } from "../utils/text-resources";
+import { doLogout } from "../service/auth.service";
+import { useNavigation } from "@react-navigation/native";
 
 const getStyles = (theme: Theme) =>
   StyleSheet.create({
@@ -129,6 +130,7 @@ type MenuItemType = {
 };
 
 export const PreferencesScreen = () => {
+  const navigation = useNavigation();
   const theme = useTheme();
   const styles = getStyles(theme);
   const preferences = getResources("preferences");
@@ -189,6 +191,14 @@ export const PreferencesScreen = () => {
 
   const fullName = user ? `${user.firstName} ${user.lastName}` : "";
 
+  const handleLogout = async () => {
+    await doLogout();
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Login" }],
+    });
+  };
+
   const renderContent = () => {
     if (loading) {
       return <LoadingView />;
@@ -216,7 +226,9 @@ export const PreferencesScreen = () => {
                 <View style={styles.profilePictureWrapper}>
                   <Image
                     source={{
-                      uri: user?.pictureUrl || "https://avatar.iran.liara.run/public/15",
+                      uri:
+                        user?.pictureUrl ||
+                        "https://avatar.iran.liara.run/public/15",
                     }}
                     style={styles.profilePicture}
                   />
@@ -253,7 +265,7 @@ export const PreferencesScreen = () => {
           <View style={styles.logoutContainer}>
             <TouchableOpacity
               style={styles.logoutButton}
-              onPress={() => console.log("Logout pressed")}
+              onPress={() => handleLogout()}
             >
               <MaterialIcons name={"logout" as any} size={20} color="white" />
               <Text style={styles.logoutText}>{preferences.logout}</Text>

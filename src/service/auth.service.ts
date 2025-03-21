@@ -1,6 +1,7 @@
 import { LoginFormData } from "../components/login-form";
 import api from "../utils/request";
 import { getResources } from "../utils/text-resources";
+import { removeJWT, removeUserData } from "../utils/auth";
 
 export const doLogin = async (formData: LoginFormData) => {
   const resp = await api.post("/auth/login", {
@@ -13,4 +14,13 @@ export const doLogin = async (formData: LoginFormData) => {
   }
 
   return resp.data.access_token;
+};
+
+export const doLogout = async (): Promise<void> => {
+  try {
+    await Promise.all([removeJWT(), removeUserData()]);
+  } catch (error) {
+    console.error("Error during logout:", error);
+    throw new Error(getResources("global").logoutError || "Failed to logout");
+  }
 };

@@ -67,6 +67,7 @@ type LanguageLevelResources = {
 
 type GlobalResources = {
   errorTitle: string;
+  logoutError: string;
 };
 
 type WordCardResources = {
@@ -101,6 +102,7 @@ type PreferencesResources = {
 export const TextResources = {
   global: {
     errorTitle: "Erreur",
+    logoutError: "Erreur de déconnexion",
   } as GlobalResources,
   loading: {
     message: "Chargement en cours...",
