@@ -1,97 +1,102 @@
 import React, { useState, useEffect } from "react";
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  TextInput, 
-  TouchableOpacity, 
-  Modal, 
-  FlatList, 
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Modal,
+  FlatList,
   SafeAreaView,
-  Animated
+  Animated,
 } from "react-native";
+import {
+  getResources,
+  PhoneModalResources,
+  ResourceKey,
+} from "../../utils/text-resources";
 
 // Common country codes with flags and validation patterns
-const COUNTRY_CODES = [
-  { 
-    code: "FR", 
-    name: "France", 
-    callingCode: "33", 
+const getCountryCodes = (labels: PhoneModalResources) => [
+  {
+    code: "FR",
+    name: labels.France,
+    callingCode: "33",
     flag: "🇫🇷",
     pattern: /^[1-9][0-9]{8}$/, // French numbers are 9 digits, not starting with 0
-    example: "612345678"
+    example: "612345678",
   },
-  { 
-    code: "US", 
-    name: "United States", 
-    callingCode: "1", 
+  {
+    code: "US",
+    name: labels.US,
+    callingCode: "1",
     flag: "🇺🇸",
     pattern: /^[2-9][0-9]{9}$/, // US numbers are 10 digits, not starting with 0 or 1
-    example: "2123456789"
+    example: "2123456789",
   },
-  { 
-    code: "GB", 
-    name: "United Kingdom", 
-    callingCode: "44", 
+  {
+    code: "GB",
+    name: labels.UK,
+    callingCode: "44",
     flag: "🇬🇧",
     pattern: /^[1-9][0-9]{9}$/, // UK mobile numbers are generally 10 digits
-    example: "7123456789"
+    example: "7123456789",
   },
-  { 
-    code: "DE", 
-    name: "Germany", 
-    callingCode: "49", 
+  {
+    code: "DE",
+    name: labels.Germany,
+    callingCode: "49",
     flag: "🇩🇪",
     pattern: /^[1-9][0-9]{9,10}$/, // German mobile numbers are 10-11 digits
-    example: "1512345678"
+    example: "1512345678",
   },
-  { 
-    code: "ES", 
-    name: "Spain", 
-    callingCode: "34", 
+  {
+    code: "ES",
+    name: labels.Spain,
+    callingCode: "34",
     flag: "🇪🇸",
     pattern: /^[6-9][0-9]{8}$/, // Spanish numbers are 9 digits
-    example: "612345678"
+    example: "612345678",
   },
-  { 
-    code: "IT", 
-    name: "Italy", 
-    callingCode: "39", 
+  {
+    code: "IT",
+    name: labels.Italy,
+    callingCode: "39",
     flag: "🇮🇹",
     pattern: /^[3][0-9]{9}$/, // Italian mobile numbers start with 3 and are 10 digits
-    example: "3123456789"
+    example: "3123456789",
   },
-  { 
-    code: "CA", 
-    name: "Canada", 
-    callingCode: "1", 
+  {
+    code: "CA",
+    name: labels.Canada,
+    callingCode: "1",
     flag: "🇨🇦",
     pattern: /^[2-9][0-9]{9}$/, // Canadian numbers are 10 digits
-    example: "2123456789"
+    example: "2123456789",
   },
-  { 
-    code: "AU", 
-    name: "Australia", 
-    callingCode: "61", 
+  {
+    code: "AU",
+    name: labels.Australia,
+    callingCode: "61",
     flag: "🇦🇺",
     pattern: /^[4][0-9]{8}$/, // Australian mobile numbers start with 4 and are 9 digits
-    example: "412345678"
+    example: "412345678",
   },
-  { 
-    code: "JP", 
-    name: "Japan", 
-    callingCode: "81", 
+  {
+    code: "JP",
+    name: labels.Japan,
+    callingCode: "81",
     flag: "🇯🇵",
     pattern: /^[0][0-9]{9,10}$/, // Japanese mobile numbers start with 0 and are 10-11 digits
-    example: "0123456789"
+    example: "0123456789",
   },
-  { 
-    code: "CN", 
-    name: "China", 
-    callingCode: "86", 
+  {
+    code: "CN",
+    name: labels.China,
+    callingCode: "86",
     flag: "🇨🇳",
     pattern: /^[1][0-9]{10}$/, // Chinese mobile numbers start with 1 and are 11 digits
-    example: "13123456789"
+    example: "13123456789",
   },
 ];
 
@@ -115,38 +120,47 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
   // Internal state to track input values
   const [phoneData, setPhoneData] = useState({
     callingCode: value?.callingCode || "33",
-    number: value?.number || ""
+    number: value?.number || "",
   });
   const [isFocused, setIsFocused] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  
+  const phoneModalLabels = getResources("phoneModal");
+  const COUNTRY_CODES = getCountryCodes(phoneModalLabels);
+
   // Animation values
   const borderColorAnim = React.useRef(new Animated.Value(0)).current;
   const borderWidthAnim = React.useRef(new Animated.Value(1)).current;
   const shadowOpacityAnim = React.useRef(new Animated.Value(0)).current;
-  
+
   // Update internal state when props change
   useEffect(() => {
     if (value) {
       setPhoneData({
         callingCode: value.callingCode || phoneData.callingCode,
-        number: value.number || phoneData.number
+        number: value.number || phoneData.number,
       });
     }
   }, [value]);
-  
+
   // Animate focus/blur transitions
   useEffect(() => {
     Animated.parallel([
       Animated.timing(borderColorAnim, {
-        toValue: isFocused ? 1 : (isValid ? 0 : (phoneData.number.length > 0 && !isValid ? 2 : 0)),
+        toValue: isFocused
+          ? 1
+          : isValid
+          ? 0
+          : phoneData.number.length > 0 && !isValid
+          ? 2
+          : 0,
         duration: 100,
         useNativeDriver: false,
       }),
       Animated.timing(borderWidthAnim, {
-        toValue: isFocused || (phoneData.number.length > 0 && !isValid) ? 1.5 : 1,
+        toValue:
+          isFocused || (phoneData.number.length > 0 && !isValid) ? 1.5 : 1,
         duration: 100,
         useNativeDriver: false,
       }),
@@ -157,11 +171,14 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
       }),
     ]).start();
   }, [isFocused, isValid, phoneData.number]);
-  
+
+
   // Find the selected country or default to France
-  const selectedCountry = COUNTRY_CODES.find(
-    country => country.callingCode === phoneData.callingCode.replace(/^\+/, '')
-  ) || COUNTRY_CODES[0];
+  const selectedCountry =
+    COUNTRY_CODES.find(
+      (country) =>
+        country.callingCode === phoneData.callingCode.replace(/^\+/, "")
+    ) || COUNTRY_CODES[0];
 
   // Validate phone number whenever it changes
   useEffect(() => {
@@ -179,19 +196,21 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
 
     const pattern = selectedCountry.pattern;
     const isNumberValid = pattern.test(phoneData.number);
-    
+
     setIsValid(isNumberValid);
-    
+
     if (!isNumberValid && phoneData.number.length > 0) {
-      setErrorMessage(`Invalid number format. Example: ${selectedCountry.example}`);
+      setErrorMessage(
+        `Invalid number format. Example: ${selectedCountry.example}`
+      );
     } else {
       setErrorMessage("");
     }
-    
+
     if (onValidationChange) onValidationChange(isNumberValid);
   };
 
-  const handleCountrySelect = (country: typeof COUNTRY_CODES[0]) => {
+  const handleCountrySelect = (country: (typeof COUNTRY_CODES)[0]) => {
     const newData = { ...phoneData, callingCode: country.callingCode };
     setPhoneData(newData);
     onChangeText(newData);
@@ -200,7 +219,7 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
 
   const handleNumberChange = (text: string) => {
     // Remove any non-numeric characters
-    const cleanedText = text.replace(/[^0-9]/g, '');
+    const cleanedText = text.replace(/[^0-9]/g, "");
     const newData = { ...phoneData, number: cleanedText };
     setPhoneData(newData);
     onChangeText(newData);
@@ -220,17 +239,17 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
   return (
     <View style={styles.inputContainer}>
       <Text style={styles.label}>{label}</Text>
-      
+
       <Animated.View style={animatedInputWrapperStyle}>
         {/* Country Code Selector */}
-        <TouchableOpacity 
-          style={styles.countrySelector} 
+        <TouchableOpacity
+          style={styles.countrySelector}
           onPress={() => setModalVisible(true)}
         >
           <Text style={styles.flag}>{selectedCountry.flag}</Text>
           <Text style={styles.callingCode}>+{selectedCountry.callingCode}</Text>
         </TouchableOpacity>
-        
+
         {/* Phone Number Input */}
         <TextInput
           style={styles.input}
@@ -241,7 +260,7 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
         />
-        
+
         {/* Validation indicator */}
         {phoneData.number.length > 0 && (
           <View style={styles.validationIndicator}>
@@ -253,14 +272,14 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
           </View>
         )}
       </Animated.View>
-      
+
       {/* Error message or hint */}
       {errorMessage ? (
         <Text style={styles.errorMessage}>{errorMessage}</Text>
       ) : hint ? (
         <Text style={styles.hint}>{hint}</Text>
       ) : null}
-      
+
       {/* Country Selection Modal */}
       <Modal
         visible={modalVisible}
@@ -275,12 +294,12 @@ const PhoneField: React.FC<PhoneFieldProps> = ({
               <Text style={styles.closeButton}>Close</Text>
             </TouchableOpacity>
           </View>
-          
+
           <FlatList
             data={COUNTRY_CODES}
             keyExtractor={(item) => item.code}
             renderItem={({ item }) => (
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.countryItem}
                 onPress={() => handleCountrySelect(item)}
               >

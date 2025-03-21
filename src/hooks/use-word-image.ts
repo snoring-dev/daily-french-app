@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { getWordImage } from '../service/word.service';
+import { useState, useEffect } from "react";
+import { getWordImage } from "../service/word.service";
 
 interface UseWordImageResult {
   imageUrl: string | null;
@@ -21,29 +21,19 @@ export const useWordImage = (wordId: number | null): UseWordImageResult => {
     // Reset states when wordId changes
     setImageUrl(null);
     setError(null);
-    
+
     // Don't fetch if wordId is null
     if (wordId === null) return;
-    
+
     const fetchImage = async () => {
       setIsLoading(true);
       try {
         const url = await getWordImage(wordId);
         setImageUrl(url);
       } catch (err) {
-        setError(err instanceof Error ? err : new Error('Failed to fetch image'));
-        
-        // Enhanced error logging
-        console.error('Error fetching word image:', {
-          wordId,
-          error: err,
-          requestedUrl: err.config?.url || 'URL not available',
-          status: err.response?.status,
-          statusText: err.response?.statusText,
-          headers: err.config?.headers || 'Headers not available',
-          responseData: err.response?.data,
-          message: err.message
-        });
+        setError(
+          err instanceof Error ? err : new Error("Failed to fetch image")
+        );
       } finally {
         setIsLoading(false);
       }

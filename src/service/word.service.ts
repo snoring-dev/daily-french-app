@@ -46,23 +46,7 @@ export const getRandomWords = async (): Promise<Word[]> => {
  */
 export interface WordImageResponse {
   word: string;
-  image: {
-    imageData: {
-      images: {
-        url: string;
-        width: number;
-        height: number;
-        content_type: string;
-      }[];
-      timings: {
-        inference: number;
-      };
-      seed: number;
-      has_nsfw_concepts: boolean[];
-      prompt: string;
-    };
-    requestId: string;
-  };
+  imageUrl: string;
 }
 
 /**
@@ -72,5 +56,5 @@ export interface WordImageResponse {
  */
 export const getWordImage = async (wordId: number): Promise<string> => {
   const resp = await api.get<WordImageResponse>(`/words/${wordId}/image`);
-  return resp.data.image.imageData.images[0].url;
+  return resp.data.imageUrl;
 };

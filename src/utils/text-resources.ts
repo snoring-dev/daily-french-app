@@ -67,16 +67,58 @@ type LanguageLevelResources = {
 
 type GlobalResources = {
   errorTitle: string;
+  logoutError: string;
 };
 
 type WordCardResources = {
   examplePhrases: string;
 };
 
+type LoadingResources = {
+  message: string;
+};
+
+export type PhoneModalResources = {
+  France: string;
+  US: string;
+  UK: string;
+  Germany: string;
+  Spain: string;
+  Italy: string;
+  Canada: string;
+  Australia: string;
+  Japan: string;
+  China: string;
+};
+
+type PreferencesResources = {
+  personalInformation: string;
+  languageLevel: string;
+  applicationSettings: string;
+  logout: string;
+  loadingError: string;
+};
+
 export const TextResources = {
   global: {
     errorTitle: "Erreur",
+    logoutError: "Erreur de déconnexion",
   } as GlobalResources,
+  loading: {
+    message: "Chargement en cours...",
+  } as LoadingResources,
+  phoneModal: {
+    France: "France",
+    US: "United States",
+    UK: "United Kingdom",
+    Germany: "Germany",
+    Spain: "Spain",
+    Italy: "Italy",
+    Canada: "Canada",
+    Australia: "Australia",
+    Japan: "Japan",
+    China: "China",
+  } as PhoneModalResources,
   register: {
     title: "Créez Votre Compte",
     subtitle: "Rejoignez notre communauté en quelques étapes simples",
@@ -148,6 +190,13 @@ export const TextResources = {
   wordCard: {
     examplePhrases: "Exemples de phrases",
   } as WordCardResources,
+  preferences: {
+    personalInformation: "Informations personnelles",
+    languageLevel: "Niveau de langue", 
+    applicationSettings: "Paramètres de l'application",
+    logout: "Déconnexion",
+    loadingError: "Échec du chargement des données de profil"
+  } as PreferencesResources,
 };
 
 export type ResourceKey = keyof typeof TextResources;

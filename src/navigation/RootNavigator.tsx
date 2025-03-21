@@ -1,13 +1,16 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import OnboardingCarousel from "../screens/onboarding";
-import HomeScreen from "../screens/home";
 import RegisterScreen from "../screens/register";
 import LoginScreen from "../screens/login";
 import EmailValidationScreen from "../screens/email-validation";
 import SetUserInformationScreen from "../screens/set-user-information";
 import DefineLanguageLevelScreen from "../screens/define-language-level";
 import { RootStackParamList } from "../utils/root-stack";
+// Import the BottomTabs from the separate file
+import { BottomTabs } from "./BottomTabs";
+import { COLORS } from "../theme/colors";
 
+// Create navigator using v7 syntax
 const Stack = createStackNavigator<RootStackParamList>();
 
 interface RootNavigatorProps {
@@ -26,22 +29,60 @@ export function RootNavigator({
         headerShown: false,
       }}
     >
-      <Stack.Screen name="Onboarding">
-        {(props) => (
-          <OnboardingCarousel {...props} onComplete={onOnboardingComplete} />
-        )}
+      <Stack.Screen 
+        name="Onboarding" 
+        options={{ headerShown: false }}
+      >
+        {(props) => <OnboardingCarousel {...props} onComplete={onOnboardingComplete} />}
       </Stack.Screen>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen
-        name="DefineLanguageLevel"
-        component={DefineLanguageLevelScreen}
+      
+      <Stack.Screen 
+        name="Login" 
+        component={LoginScreen} 
+        options={{ headerShown: false }} 
       />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-      <Stack.Screen name="EmailValidation" component={EmailValidationScreen} />
-      <Stack.Screen name="Login" component={LoginScreen} />
-      <Stack.Screen
-        name="SetUserInformation"
-        component={SetUserInformationScreen}
+      
+      <Stack.Screen 
+        name="Register" 
+        component={RegisterScreen} 
+        options={{ headerShown: false }} 
+      />
+      
+      <Stack.Screen 
+        name="EmailValidation" 
+        component={EmailValidationScreen} 
+        options={{ 
+          headerShown: true,
+          headerTitle: "Verify Email",
+          headerBackTitle: "Back"
+        }} 
+      />
+      
+      <Stack.Screen 
+        name="SetUserInformation" 
+        component={SetUserInformationScreen} 
+        options={{ 
+          headerShown: false,
+          gestureEnabled: false 
+        }} 
+      />
+      
+      <Stack.Screen 
+        name="DefineLanguageLevel" 
+        component={DefineLanguageLevelScreen} 
+        options={{ 
+          headerShown: false,
+          gestureEnabled: false 
+        }} 
+      />
+      
+      <Stack.Screen 
+        name="Home" 
+        component={BottomTabs} 
+        options={{ 
+          headerShown: false,
+          gestureEnabled: false 
+        }} 
       />
     </Stack.Navigator>
   );
