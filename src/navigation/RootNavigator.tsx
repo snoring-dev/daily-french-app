@@ -1,17 +1,12 @@
-import { createStackNavigator } from "@react-navigation/stack";
 import OnboardingCarousel from "../screens/onboarding";
 import RegisterScreen from "../screens/register";
 import LoginScreen from "../screens/login";
 import EmailValidationScreen from "../screens/email-validation";
 import SetUserInformationScreen from "../screens/set-user-information";
 import DefineLanguageLevelScreen from "../screens/define-language-level";
-import { RootStackParamList } from "../utils/root-stack";
-// Import the BottomTabs from the separate file
 import { BottomTabs } from "./BottomTabs";
-import { COLORS } from "../theme/colors";
-
-// Create navigator using v7 syntax
-const Stack = createStackNavigator<RootStackParamList>();
+import { RootStackParamList } from "../utils/root-stack";
+import { Stack } from "./stack";
 
 interface RootNavigatorProps {
   initialScreen: keyof RootStackParamList;
@@ -29,60 +24,59 @@ export function RootNavigator({
         headerShown: false,
       }}
     >
-      <Stack.Screen 
-        name="Onboarding" 
-        options={{ headerShown: false }}
-      >
-        {(props) => <OnboardingCarousel {...props} onComplete={onOnboardingComplete} />}
+      <Stack.Screen name="Onboarding" options={{ headerShown: false }}>
+        {(props) => (
+          <OnboardingCarousel {...props} onComplete={onOnboardingComplete} />
+        )}
       </Stack.Screen>
-      
-      <Stack.Screen 
-        name="Login" 
-        component={LoginScreen} 
-        options={{ headerShown: false }} 
+
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
       />
-      
-      <Stack.Screen 
-        name="Register" 
-        component={RegisterScreen} 
-        options={{ headerShown: false }} 
+
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{ headerShown: false }}
       />
-      
-      <Stack.Screen 
-        name="EmailValidation" 
-        component={EmailValidationScreen} 
-        options={{ 
+
+      <Stack.Screen
+        name="EmailValidation"
+        component={EmailValidationScreen}
+        options={{
           headerShown: true,
           headerTitle: "Verify Email",
-          headerBackTitle: "Back"
-        }} 
+          headerBackTitle: "Back",
+        }}
       />
-      
-      <Stack.Screen 
-        name="SetUserInformation" 
-        component={SetUserInformationScreen} 
-        options={{ 
+
+      <Stack.Screen
+        name="SetUserInformation"
+        component={SetUserInformationScreen}
+        options={{
           headerShown: false,
-          gestureEnabled: false 
-        }} 
+          gestureEnabled: false,
+        }}
       />
-      
-      <Stack.Screen 
-        name="DefineLanguageLevel" 
-        component={DefineLanguageLevelScreen} 
-        options={{ 
+
+      <Stack.Screen
+        name="DefineLanguageLevel"
+        component={DefineLanguageLevelScreen}
+        options={{
           headerShown: false,
-          gestureEnabled: false 
-        }} 
+          gestureEnabled: false,
+        }}
       />
-      
-      <Stack.Screen 
-        name="Home" 
-        component={BottomTabs} 
-        options={{ 
+
+      <Stack.Screen
+        name="Home"
+        component={BottomTabs}
+        options={{
           headerShown: false,
-          gestureEnabled: false 
-        }} 
+          gestureEnabled: false,
+        }}
       />
     </Stack.Navigator>
   );

@@ -12,6 +12,10 @@ export type RootStackParamList = {
   ResetPasswordValidation: undefined;
   SetUserInformation: undefined;
   DefineLanguageLevel: undefined;
+  UserPreferences: undefined;
+  UserHistory: undefined;
+  AppSettings: undefined;
+  DailyWords: undefined;
 };
 
 export type NavigationProps = StackScreenProps<RootStackParamList>;

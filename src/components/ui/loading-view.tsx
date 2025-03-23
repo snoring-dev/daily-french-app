@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.1)",
+    backgroundColor: "#FFFFFF",
   },
   animation: {
     width: Dimensions.get("window").width * 0.7,

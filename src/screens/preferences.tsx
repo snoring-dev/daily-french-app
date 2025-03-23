@@ -16,7 +16,7 @@ import LoadingView from "../components/ui/loading-view";
 import { MaterialIcons } from "@expo/vector-icons";
 import { getResources } from "../utils/text-resources";
 import { doLogout } from "../service/auth.service";
-import { useNavigation } from "@react-navigation/native";
+import { NavigationProps } from "../utils/root-stack";
 
 const getStyles = (theme: Theme) =>
   StyleSheet.create({
@@ -127,10 +127,10 @@ type MenuItemType = {
   title: string;
   icon: any; // Using any for icon names to avoid type issues
   color: string;
+  onClick: () => void;
 };
 
-export const PreferencesScreen = () => {
-  const navigation = useNavigation();
+export const PreferencesScreen = ({ navigation }: NavigationProps) => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const preferences = getResources("preferences");
@@ -174,18 +174,21 @@ export const PreferencesScreen = () => {
       title: preferences.personalInformation,
       icon: "person",
       color: theme.color.primaryBlue,
+      onClick: () => navigation.navigate("SetUserInformation"),
     },
     {
       id: 2,
       title: preferences.languageLevel,
       icon: "language",
       color: theme.color.accentRed,
+      onClick: () => navigation.navigate("DefineLanguageLevel"),
     },
     {
       id: 3,
       title: preferences.applicationSettings,
       icon: "settings",
       color: theme.color.navyBlue,
+      onClick: () => navigation.navigate("Home"),
     },
   ];
 
@@ -242,7 +245,11 @@ export const PreferencesScreen = () => {
           {/* Menu Items */}
           <View style={styles.menuContainer}>
             {menuItems.map((item) => (
-              <TouchableOpacity key={item.id} style={styles.menuItem}>
+              <TouchableOpacity
+                key={item.id}
+                style={styles.menuItem}
+                onPress={item.onClick}
+              >
                 <View style={styles.menuIcon}>
                   <MaterialIcons
                     name={item.icon as any}
