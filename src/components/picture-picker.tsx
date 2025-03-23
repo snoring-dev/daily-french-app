@@ -10,11 +10,14 @@ import {
 import * as ImagePicker from "expo-image-picker";
 import api from "../utils/request";
 import { getLocalUserData } from "../utils/auth";
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
-import { Ionicons } from '@expo/vector-icons';
+import Animated, {
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
+import { Ionicons } from "@expo/vector-icons";
 
-const PicturePicker = () => {
-  const [image, setImage] = useState<string | null>(null);
+const PicturePicker = ({ initialImage }: { initialImage?: string }) => {
+  const [image, setImage] = useState<string | null>(initialImage ?? "");
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const pickImage = async () => {
@@ -70,6 +73,13 @@ const PicturePicker = () => {
   };
 
   useEffect(() => {
+    if (initialImage) {
+      setImage(initialImage);
+      setUploadProgress(100);
+    }
+  }, [initialImage]);
+
+  useEffect(() => {
     if (image) {
       uploadImage();
     }
@@ -77,19 +87,19 @@ const PicturePicker = () => {
 
   const progressAnimatedStyle = useAnimatedStyle(() => {
     return {
-      width: '100%',
-      height: '100%',
+      width: "100%",
+      height: "100%",
       borderRadius: 100,
       borderWidth: 3,
-      borderColor: '#007BFF',
-      position: 'absolute',
-      borderLeftColor: 'transparent',
+      borderColor: "#007BFF",
+      position: "absolute",
+      borderLeftColor: "transparent",
       transform: [
-        { 
-          rotate: withTiming(`${uploadProgress * 3.6}deg`, { 
-            duration: 300 
-          }) 
-        }
+        {
+          rotate: withTiming(`${uploadProgress * 3.6}deg`, {
+            duration: 300,
+          }),
+        },
       ],
     };
   }, [uploadProgress]);
@@ -100,21 +110,20 @@ const PicturePicker = () => {
         <View style={styles.imageContainer}>
           <View style={[styles.imageWrapper, styles.fancyBorder]}>
             <Image source={{ uri: image }} style={styles.image} />
-            
-            <TouchableOpacity 
-              style={styles.deleteButton}
-              onPress={deleteImage}
-            >
+
+            <TouchableOpacity style={styles.deleteButton} onPress={deleteImage}>
               <View style={styles.deleteIconContainer}>
                 <Ionicons name="close-circle" size={26} color="#FF3B30" />
               </View>
             </TouchableOpacity>
           </View>
-          
+
           {uploadProgress > 0 && uploadProgress < 100 ? (
             <View style={styles.progressOverlay}>
               <Animated.View style={progressAnimatedStyle} />
-              <Text style={styles.progressText}>{Math.round(uploadProgress)}%</Text>
+              <Text style={styles.progressText}>
+                {Math.round(uploadProgress)}%
+              </Text>
             </View>
           ) : uploadProgress === 100 ? (
             <View style={styles.checkmarkContainer}>
@@ -123,7 +132,10 @@ const PicturePicker = () => {
           ) : null}
         </View>
       ) : (
-        <TouchableOpacity onPress={pickImage} style={styles.placeholderContainer}>
+        <TouchableOpacity
+          onPress={pickImage}
+          style={styles.placeholderContainer}
+        >
           <Ionicons name="camera" size={40} color="#007BFF" />
           <Text style={styles.placeholderText}>Select Image</Text>
         </TouchableOpacity>
@@ -141,28 +153,28 @@ const styles = StyleSheet.create({
   imageContainer: {
     width: 150,
     height: 150,
-    position: 'relative',
+    position: "relative",
   },
   imageWrapper: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 75,
-    overflow: 'visible',
-    position: 'relative',
+    overflow: "visible",
+    position: "relative",
   },
   fancyBorder: {
     borderWidth: 2,
-    borderColor: '#007BFF',
+    borderColor: "#007BFF",
     padding: 1,
-    backgroundColor: 'white',
+    backgroundColor: "white",
   },
   image: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     borderRadius: 69,
     borderWidth: 2,
-    borderColor: 'white',
-    overflow: 'hidden',
+    borderColor: "white",
+    overflow: "hidden",
   },
   progressOverlay: {
     position: "absolute",
@@ -180,31 +192,31 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   successContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     bottom: 0,
     borderWidth: 3,
-    borderColor: '#007BFF',
+    borderColor: "#007BFF",
     borderRadius: 75,
-    shadowColor: '#FFFFFF',
+    shadowColor: "#FFFFFF",
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 4,
     elevation: 5,
   },
   checkmarkContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: -15,
-    alignSelf: 'center',
-    backgroundColor: '#007BFF',
+    alignSelf: "center",
+    backgroundColor: "#007BFF",
     borderRadius: 18,
     width: 36,
     height: 36,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
@@ -228,19 +240,19 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins",
   },
   deleteButton: {
-    position: 'absolute',
+    position: "absolute",
     bottom: -15,
-    alignSelf: 'center',
+    alignSelf: "center",
     zIndex: 20,
     elevation: 10,
     width: 30,
     height: 30,
   },
   deleteIconContainer: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 15,
     padding: 2,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.2,
     shadowRadius: 1.5,

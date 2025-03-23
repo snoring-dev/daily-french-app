@@ -11,9 +11,11 @@ import { refreshUserData } from "../service/users.service";
 
 const DefineLanguageLevelScreen: React.FC<NavigationProps> = ({
   navigation,
+  route
 }) => {
   const [languageLevel, setLanguageLevel] = useState("A1");
   const [isLoading, setIsLoading] = useState(false);
+  const mode = route.params?.mode || "CREATE";
 
   const resources = getResources("languageLevel");
 
@@ -28,7 +30,10 @@ const DefineLanguageLevelScreen: React.FC<NavigationProps> = ({
 
       if (response.status === 200) {
         await refreshUserData();
-        navigation.push("Home");
+        if (mode === "CREATE")
+          navigation.push("Home");
+        else
+          navigation.goBack();
       }
     } catch (error) {
       console.error("Failed to update language level:", error);

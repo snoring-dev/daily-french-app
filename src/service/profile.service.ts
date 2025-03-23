@@ -31,9 +31,9 @@ export const navigateBasedOnProfileCompletion = async (navigation: any) => {
   const status = await getProfileCompletionStatus();
   
   if (!status.hasUserInformation) {
-    navigation.replace("SetUserInformation");
+    navigation.replace("SetUserInformation", { mode: "CREATE" });
   } else if (!status.hasLanguageLevel) {
-    navigation.replace("DefineLanguageLevel");
+    navigation.replace("DefineLanguageLevel", { mode: "CREATE" });
   } else {
     navigation.replace("Home");
   }

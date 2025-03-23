@@ -21,42 +21,71 @@ interface SetUserInformationScreenProps {}
 
 const SetUserInformationScreen: React.FC<
   SetUserInformationScreenProps & NavigationProps
-> = ({ navigation }) => {
+> = ({ navigation, route }) => {
   const screenLabels = getResources("userInformation");
+  const mode = route.params?.mode || "CREATE";
   const [isLoading, setIsLoading] = useState(false);
+  const [pictureUrl, setPictureUrl] = useState();
   const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
     phoneNumber: { callingCode: "", number: "" },
   });
 
+  const fetchLocalUser = async () => {
+    const user = await getLocalUserData();
+    if (user) {
+      // Initialize form with local user data
+      const { firstName, lastName, phoneNumber, pictureUrl } = user;
+
+      // Parse phone number into calling code and number
+      const phoneRegex = /^\+(\d+)(\d{9,10})$/;
+      const match = phoneNumber ? phoneNumber.match(phoneRegex) : null;
+
+      setPictureUrl(pictureUrl || "");
+      setUserData({
+        firstName: firstName || "",
+        lastName: lastName || "",
+        phoneNumber: {
+          callingCode: match ? match[1] : "",
+          number: match ? match[2] : "",
+        },
+      });
+    }
+  };
+
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const { id } = await getLocalUserData();
-        const response = await api.get(`/users/${id}`);
+    fetchLocalUser();
 
-        if (response.data) {
-          const { firstName, lastName, phoneNumber } = response.data;
-          // Parse phone number into calling code and number
-          const phoneRegex = /^\+(\d+)(\d{9,10})$/;
-          const match = phoneNumber ? phoneNumber.match(phoneRegex) : null;
+    // const fetchUserData = async () => {
+    //   try {
+    //     const { id } = await getLocalUserData();
+    //     const response = await api.get(`/users/${id}`);
 
-          setUserData({
-            firstName: firstName || "",
-            lastName: lastName || "",
-            phoneNumber: {
-              callingCode: match ? match[1] : "",
-              number: match ? match[2] : "",
-            },
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
+    //     if (response.data) {
+    //       const { firstName, lastName, phoneNumber, pictureUrl } =
+    //         response.data;
+    //       // Parse phone number into calling code and number
+    //       const phoneRegex = /^\+(\d+)(\d{9,10})$/;
+    //       const match = phoneNumber ? phoneNumber.match(phoneRegex) : null;
+    //       setPictureUrl(pictureUrl);
+    //       setUserData({
+    //         firstName: firstName || "",
+    //         lastName: lastName || "",
+    //         phoneNumber: {
+    //           callingCode: match ? match[1] : "",
+    //           number: match ? match[2] : "",
+    //         },
+    //       });
 
-    fetchUserData();
+    //       console.log("DATA ========>", response.data);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching user data:", error);
+    //   }
+    // };
+
+    // fetchUserData();
   }, []);
 
   const handleUpdateProfile = async (formData: {
@@ -71,14 +100,14 @@ const SetUserInformationScreen: React.FC<
       // Format phone number to include calling code
       const formattedPhoneNumber = `+${formData.phoneNumber.callingCode}${formData.phoneNumber.number}`;
 
-      console.log('Attempting to update user profile:', {
+      console.log("Attempting to update user profile:", {
         userId: id,
         endpoint: `/users/${id}`,
         dataToUpdate: {
           firstName: formData.firstName,
           lastName: formData.lastName,
           phoneNumber: formattedPhoneNumber,
-        }
+        },
       });
 
       const response = await api.patch(`/users/${id}`, {
@@ -88,7 +117,10 @@ const SetUserInformationScreen: React.FC<
       });
 
       if (response.status === 200) {
-        navigation.navigate("DefineLanguageLevel");
+        if (mode === "CREATE")
+          navigation.navigate("DefineLanguageLevel", { mode: "CREATE" });
+        else
+          navigation.goBack();
       }
     } catch (error) {
       console.error("Error updating user information:", error);
@@ -107,15 +139,11 @@ const SetUserInformationScreen: React.FC<
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView contentContainerStyle={styles.scrollView}>
             <View style={styles.contentContainer}>
-              <Text style={styles.title}>
-                {screenLabels.title}
-              </Text>
-              <Text style={styles.subtitle}>
-                {screenLabels.subtitle}
-              </Text>
+              <Text style={styles.title}>{screenLabels.title}</Text>
+              <Text style={styles.subtitle}>{screenLabels.subtitle}</Text>
 
               <View style={styles.pictureContainer}>
-                <PicturePicker />
+                <PicturePicker initialImage={pictureUrl} />
               </View>
 
               <UserInformationForm

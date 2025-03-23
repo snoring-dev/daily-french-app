@@ -1,5 +1,5 @@
 import { FormData } from "../components/register-form";
-import { saveUserData } from "../utils/auth";
+import { removeUserData, saveUserData } from "../utils/auth";
 import api from "../utils/request";
 
 export const saveUser = async (formData: FormData) => {
@@ -32,6 +32,7 @@ export const getUserData = async () => {
 
 export const refreshUserData = async () => {
   try {
+    await removeUserData();
     const userData = await getUserData();
     await saveUserData(userData);
   } catch (e) {

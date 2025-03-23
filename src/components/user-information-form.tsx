@@ -40,6 +40,8 @@ const UserInformationForm: React.FC<UserInformationFormProps> = ({
     setFirstName(initialValues.firstName);
     setLastName(initialValues.lastName);
     setPhoneNumber(initialValues.phoneNumber);
+
+    console.log(initialValues);
   }, [initialValues]);
 
   const validate = () => {

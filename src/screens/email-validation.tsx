@@ -33,7 +33,7 @@ const EmailValidationScreen: React.FC<EmailValidationScreenProps> = ({
         setIsLoading(true);
         const resp = await submitValidationCode(formData.email, formData.code);
         if (resp) {
-          navigation.navigate("SetUserInformation");
+          navigation.navigate("SetUserInformation", { mode: "CREATE" });
         }
       } catch (e) {
         console.log(e);

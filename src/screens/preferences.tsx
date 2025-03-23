@@ -174,14 +174,14 @@ export const PreferencesScreen = ({ navigation }: NavigationProps) => {
       title: preferences.personalInformation,
       icon: "person",
       color: theme.color.primaryBlue,
-      onClick: () => navigation.navigate("SetUserInformation"),
+      onClick: () => navigation.navigate("SetUserInformation", { mode: "EDIT" }),
     },
     {
       id: 2,
       title: preferences.languageLevel,
       icon: "language",
       color: theme.color.accentRed,
-      onClick: () => navigation.navigate("DefineLanguageLevel"),
+      onClick: () => navigation.navigate("DefineLanguageLevel", { mode: "EDIT" }),
     },
     {
       id: 3,
