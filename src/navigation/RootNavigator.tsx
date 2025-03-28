@@ -7,6 +7,7 @@ import DefineLanguageLevelScreen from "../screens/define-language-level";
 import { BottomTabs } from "./BottomTabs";
 import { RootStackParamList } from "../utils/root-stack";
 import { Stack } from "./stack";
+import WordsScreen from "../screens/words-screen";
 
 interface RootNavigatorProps {
   initialScreen: keyof RootStackParamList;
@@ -73,6 +74,15 @@ export function RootNavigator({
       <Stack.Screen
         name="Home"
         component={BottomTabs}
+        options={{
+          headerShown: false,
+          gestureEnabled: false,
+        }}
+      />
+
+      <Stack.Screen
+        name="DailyWords"
+        component={WordsScreen}
         options={{
           headerShown: false,
           gestureEnabled: false,

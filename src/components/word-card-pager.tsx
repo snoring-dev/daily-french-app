@@ -1,89 +1,99 @@
-import React, { useState, useRef } from 'react';
-import { 
-  View, 
-  StyleSheet, 
-  Dimensions, 
-  TouchableOpacity, 
-  Text, 
+import React, { useState, useRef } from "react";
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  Text,
   FlatList,
-  ScrollView
-} from 'react-native';
-import { Word } from '../service/word.service';
-import { WordCard } from './word-card';
-import { useTheme } from '../hooks/use-theme';
-import { Theme } from '../theme';
+  ScrollView,
+} from "react-native";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { Word } from "../service/word.service";
+import { WordCard } from "./word-card";
+import { useTheme } from "../hooks/use-theme";
+import { Theme } from "../theme";
 
 interface WordCardPagerProps {
   words: Word[];
   onWordChange?: (index: number) => void;
+  goBack: () => void;
 }
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const getStyles = (theme: Theme) => StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  pagerContainer: {
-    flex: 1,
-  },
-  pageItem: {
-    width: SCREEN_WIDTH,
-    height: '100%',
-  },
-  scrollViewContainer: {
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 80,
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: 'rgba(255, 255, 255, 0.95)',
-    borderTopWidth: 1,
-    borderTopColor: theme.color.borderLight,
-  },
-  paginationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  paginationDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: theme.color.mediumGray,
-    marginHorizontal: 4,
-  },
-  activeDot: {
-    width: 24,
-    backgroundColor: theme.color.primaryBlue,
-  },
-  navButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: theme.color.primaryBlue,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  navButtonDisabled: {
-    backgroundColor: theme.color.softGray,
-  },
-  navButtonText: {
-    color: theme.color.white,
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-});
+const getStyles = (theme: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+    pagerContainer: {
+      flex: 1,
+    },
+    pageItem: {
+      width: SCREEN_WIDTH,
+      height: "100%",
+    },
+    scrollViewContainer: {
+      paddingHorizontal: 16,
+      paddingTop: 16,
+      paddingBottom: 80,
+    },
+    footer: {
+      position: "absolute",
+      bottom: 0,
+      left: 0,
+      right: 0,
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      paddingHorizontal: 20,
+      paddingVertical: 16,
+      backgroundColor: "rgba(255, 255, 255, 0.95)",
+      borderTopWidth: 1,
+      borderTopColor: theme.color.borderLight,
+    },
+    paginationContainer: {
+      flexDirection: "row",
+      alignItems: "center",
+    },
+    paginationDot: {
+      width: 8,
+      height: 8,
+      borderRadius: 4,
+      backgroundColor: theme.color.mediumGray,
+      marginHorizontal: 4,
+    },
+    activeDot: {
+      width: 24,
+      backgroundColor: theme.color.primaryBlue,
+    },
+    navButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: theme.color.primaryBlue,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    navButtonDisabled: {
+      backgroundColor: theme.color.softGray,
+    },
+    navButtonDone: {
+      backgroundColor: theme.color.successGreen,
+    },
+    navButtonText: {
+      color: theme.color.white,
+      fontSize: 18,
+      fontWeight: "bold",
+    },
+  });
 
-export const WordCardPager = ({ words, onWordChange }: WordCardPagerProps) => {
+export const WordCardPager = ({
+  words,
+  onWordChange,
+  goBack,
+}: WordCardPagerProps) => {
   const theme = useTheme();
   const styles = getStyles(theme);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -97,23 +107,23 @@ export const WordCardPager = ({ words, onWordChange }: WordCardPagerProps) => {
       if (onWordChange) {
         onWordChange(index);
       }
-      
+
       // Reset scroll position when changing pages
-      Object.values(scrollViewRefs.current).forEach(ref => {
+      Object.values(scrollViewRefs.current).forEach((ref) => {
         ref?.scrollTo({ y: 0, animated: false });
       });
     }
   };
 
   const viewabilityConfig = {
-    itemVisiblePercentThreshold: 50
+    itemVisiblePercentThreshold: 50,
   };
 
   const goToPage = (index: number) => {
     if (index >= 0 && index < words.length) {
       flatListRef.current?.scrollToIndex({
         index,
-        animated: true
+        animated: true,
       });
     }
   };
@@ -136,7 +146,7 @@ export const WordCardPager = ({ words, onWordChange }: WordCardPagerProps) => {
   const renderItem = ({ item, index }: { item: Word; index: number }) => (
     <View style={styles.pageItem}>
       <ScrollView
-        ref={(ref) => scrollViewRefs.current[index] = ref}
+        ref={(ref) => (scrollViewRefs.current[index] = ref)}
         showsVerticalScrollIndicator={true}
         contentContainerStyle={styles.scrollViewContainer}
         nestedScrollEnabled={true}
@@ -180,18 +190,21 @@ export const WordCardPager = ({ words, onWordChange }: WordCardPagerProps) => {
               key={`dot-${index}`}
               style={[
                 styles.paginationDot,
-                currentIndex === index && styles.activeDot
+                currentIndex === index && styles.activeDot,
               ]}
             />
           ))}
         </View>
 
         <TouchableOpacity
-          style={[styles.navButton, isLastPage && styles.navButtonDisabled]}
-          onPress={goToNext}
-          disabled={isLastPage}
+          style={[styles.navButton, isLastPage && styles.navButtonDone]}
+          onPress={isLastPage ? goBack : goToNext}
         >
-          <Text style={styles.navButtonText}>→</Text>
+          {isLastPage ? (
+            <FontAwesome6 name="check" size={24} color="white" />
+          ) : (
+            <Text style={styles.navButtonText}>→</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>

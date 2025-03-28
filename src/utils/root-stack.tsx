@@ -10,8 +10,12 @@ export type RootStackParamList = {
     email: string;
   };
   ResetPasswordValidation: undefined;
-  SetUserInformation: undefined;
-  DefineLanguageLevel: undefined;
+  SetUserInformation: {
+    mode: "CREATE" | "EDIT";
+  };
+  DefineLanguageLevel: {
+    mode: "CREATE" | "EDIT";
+  };
   UserPreferences: undefined;
   UserHistory: undefined;
   AppSettings: undefined;
