@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import { getResources } from "../utils/text-resources";
 import LoginForm from "../components/login-form";
 import { showAlert } from "../utils/alert";
 import { doLogin } from "../service/auth.service";
-import { saveUserData, setJWT } from "../utils/auth";
+import { removeJWT, removeUserData, saveUserData, setJWT } from "../utils/auth";
 import { getUserData } from "../service/users.service";
 import { navigateBasedOnProfileCompletion } from "../service/profile.service";
 
@@ -28,6 +28,15 @@ const LoginScreen: React.FC<LoginScreenProps & NavigationProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const screenLabels = getResources("login");
+
+  useEffect(() => {
+    const cleanUp = async () => {
+      await removeUserData();
+      await removeJWT();
+    };
+
+    cleanUp();
+  }, []);
 
   const handleLogin = async (formData: { email: string; password: string }) => {
     try {

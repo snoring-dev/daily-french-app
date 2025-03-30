@@ -1,4 +1,4 @@
-function formatPhoneNumber(phoneObj: {
+export function formatPhoneNumber(phoneObj: {
   callingCode: string;
   number: string;
 }): string {

@@ -14,6 +14,7 @@ interface CheckboxWithLinkProps {
   label: string;
   linkText: string;
   linkUrl: string;
+  error?: string;
 }
 
 const CheckboxWithLink: React.FC<CheckboxWithLinkProps> = ({
@@ -22,6 +23,7 @@ const CheckboxWithLink: React.FC<CheckboxWithLinkProps> = ({
   label,
   linkText,
   linkUrl,
+  error,
 }) => {
   const handleLinkPress = async () => {
     const supported = await Linking.canOpenURL(linkUrl);
@@ -46,6 +48,7 @@ const CheckboxWithLink: React.FC<CheckboxWithLinkProps> = ({
             <Text style={styles.link}>{linkText}</Text>
           </TouchableOpacity>
         </Text>
+        {error && <Text style={styles.error}>{error}</Text>}
       </View>
     </View>
   );
@@ -72,7 +75,13 @@ const styles = StyleSheet.create({
     color: "#007AFF",
     textDecorationLine: "underline",
     position: "relative",
-    top: 1,
+    top: 3,
+  },
+  error: {
+    color: "#FF3B30",
+    fontSize: 12,
+    marginTop: 5,
+    fontFamily: "Poppins",
   },
 });
 

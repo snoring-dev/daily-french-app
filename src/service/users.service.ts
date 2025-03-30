@@ -1,6 +1,7 @@
 import { FormData } from "../components/register-form";
 import { removeUserData, saveUserData } from "../utils/auth";
 import api from "../utils/request";
+import { formatPhoneNumber } from "../utils/strings";
 
 export const saveUser = async (formData: FormData) => {
   const resp = await api.post("/users/register", {

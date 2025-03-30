@@ -15,7 +15,7 @@ const schema = z.object({
   email: z.string().email(screenLabels.invalidEmail),
   phone: z.object({
     callingCode: z.string(),
-    number: z.string().min(10, screenLabels.phoneNumberTooShort),
+    number: z.string().min(9, screenLabels.phoneNumberTooShort),
   }),
   password: z.string().min(8, screenLabels.passwordTooShort),
   agreeTerms: z.boolean().refine((val) => val === true, {
@@ -45,7 +45,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
-      phone: { callingCode: "+33", number: "" },
+      email: "",
+      password: "",
+      phone: { callingCode: "33", number: "" },
+      agreeTerms: false
     },
     mode: "onChange",
   });
@@ -77,10 +80,10 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
         name="phone"
         render={({ field: { onChange, value } }) => (
           <PhoneField
-            value={value.number}
+            value={value}
             label={screenLabels.phoneField}
-            onChangeText={({ callingCode, number }) => {
-              onChange({ callingCode, number });
+            onChangeText={(phoneData) => {
+              onChange(phoneData);
             }}
             placeholder=""
             hint={errors.phone?.number?.message}
@@ -116,7 +119,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
             label={screenLabels.agreeTermsPrefix}
             linkText={screenLabels.termsAndConditions}
             linkUrl="https://www.google.com"
-            // error={errors.agreeTerms?.message}
+            error={errors.agreeTerms?.message}
           />
         )}
       />
